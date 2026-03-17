@@ -69,7 +69,7 @@ export class EmailService {
       const encodedMessage = encodeURIComponent(message);
       
       // Create WhatsApp URL
-      const whatsappUrl = `https://wa.me/${fullPhoneNumber.replace('+', this.ADMIN_PHONE)}?text=${encodedMessage}`;
+      const whatsappUrl = `https://wa.me/${this.ADMIN_PHONE}?text=${encodedMessage}`;
       
       console.log('📱 WhatsApp Message Details:');
       console.log('📞 To:', fullPhoneNumber);
