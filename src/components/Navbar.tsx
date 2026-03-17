@@ -66,7 +66,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-transparent md:border-b bg-transparent md:bg-background">
+      <nav className="sticky top-0 z-50 w-full border-b border-transparent md:border-b md:bg-background bg-white">
         <div className="container flex h-14 items-center">
           <Link to="/" className="mr-6 flex items-center space-x-2">
             <img 
@@ -141,7 +141,7 @@ export function Navbar() {
       </nav>
 
       {/* Beautiful Mobile Menu Overlay */}
-      <div className={`fixed inset-0 z-40 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+      <div className={`fixed inset-0 z-50 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
         {/* Backdrop */}
         <div 
           className={`absolute inset-0 bg-black transition-opacity duration-300 ${isAnimating ? 'opacity-0' : 'opacity-50'}`}
