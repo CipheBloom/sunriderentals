@@ -153,11 +153,11 @@ export function LandingPage() {
               <div className="space-y-1 text-sm text-gray-500">
                 <p className="flex items-center gap-2">
                   <Phone className="h-4 w-4" />
-                  +91 98765 43210
+                  +918471909282
                 </p>
                 <p className="flex items-center gap-2">
                   <MapPin className="h-4 w-4" />
-                  123 Scooty Street, City
+                  123 Ritom Street, City
                 </p>
               </div>
             </div>
