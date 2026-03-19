@@ -2,27 +2,31 @@ import { MapPin, Phone, Clock, Shield, Star, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScootyCard } from '@/components/ScootyCard';
-import type { Scooty } from '@/types';
+import { vehicleAPI, type VehicleData } from '@/lib/api';
 import { useState, useEffect } from 'react';
 
 export function LandingPage() {
-  const [scooty, setScooty] = useState<Scooty[]>([]);
+  const [scooty, setScooty] = useState<VehicleData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadScootys();
   }, []);
 
-  const loadScootys = () => {
+  const loadScootys = async () => {
     try {
-      const data = localStorage.getItem('sunride_scootys');
-      setScooty(data ? JSON.parse(data) : []);
+      setLoading(true);
+      const vehicles = await vehicleAPI.getAvailable();
+      setScooty(vehicles);
     } catch (error) {
-      console.error('Error loading scootys:', error);
+      console.error('❌ Error loading vehicles:', error);
       setScooty([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const featuredScooty: Scooty[] = scooty.slice(0, 3);
+  const featuredScooty = scooty.slice(0, 3);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -104,9 +108,20 @@ export function LandingPage() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featuredScooty.map((scooty) => (
-              <ScootyCard key={scooty.id} scooty={scooty} />
-            ))}
+            {loading ? (
+              <div className="col-span-full text-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-500">Loading featured scooters...</p>
+              </div>
+            ) : featuredScooty.length > 0 ? (
+              featuredScooty.map((scooty) => (
+                <ScootyCard key={scooty.id} scooty={scooty} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">No scooters available at the moment.</p>
+              </div>
+            )}
           </div>
           <div className="mt-8 text-center">
             <Link to="/scooty">

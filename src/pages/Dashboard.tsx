@@ -4,7 +4,7 @@ import { Calendar, Bike, IndianRupee, Clock, CheckCircle, XCircle, AlertCircle, 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import type { Booking } from '@/types';
+import { bookingAPI, type BookingData } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
@@ -17,32 +17,44 @@ const statusConfig = {
 
 export function Dashboard() {
   const { isAuthenticated, user } = useAuth();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<BookingData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Fetch bookings from MongoDB
   useEffect(() => {
     if (user) {
-      const allBookings = JSON.parse(localStorage.getItem('sunride_bookings') || '[]');
-      const userBookings = allBookings.filter((b: Booking) => b.userId === user.id);
-      setBookings(userBookings);
+      const fetchBookings = async () => {
+        try {
+          setIsLoading(true);
+          const userBookings = await bookingAPI.getByUser(user.id);
+          setBookings(userBookings);
+        } catch (error) {
+          console.error('❌ Failed to fetch bookings:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      fetchBookings();
     }
   }, [user]);
 
-  const handleCancelBooking = (bookingId: string) => {
+  const handleCancelBooking = async (bookingId: string) => {
     if (!confirm('Are you sure you want to cancel this booking?')) return;
     
-    const allBookings = JSON.parse(localStorage.getItem('sunride_bookings') || '[]');
-    const updatedBookings = allBookings.map((b: Booking) => {
-      if (b.id === bookingId) {
-        return { ...b, status: 'cancelled' as const };
+    try {
+      await bookingAPI.update(bookingId, { status: 'cancelled' });
+      console.log('✅ Booking cancelled in MongoDB');
+      
+      // Refresh bookings
+      if (user) {
+        const userBookings = await bookingAPI.getByUser(user.id);
+        setBookings(userBookings);
       }
-      return b;
-    });
-    
-    localStorage.setItem('sunride_bookings', JSON.stringify(updatedBookings));
-    
-    // Update local state
-    const userBookings = updatedBookings.filter((b: Booking) => b.userId === user?.id);
-    setBookings(userBookings);
+    } catch (error) {
+      console.error('❌ Failed to cancel booking:', error);
+      alert('Failed to cancel booking. Please try again.');
+    }
   };
 
   if (!isAuthenticated) {
@@ -91,7 +103,7 @@ export function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                ₹{bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + b.totalPrice, 0)}
+                ₹{bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + (b.totalPrice || 0), 0)}
               </div>
             </CardContent>
           </Card>
@@ -101,7 +113,13 @@ export function Dashboard() {
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Recent Bookings</h2>
           
-          {bookings.length === 0 ? (
+          {isLoading ? (
+            <Card>
+              <CardContent className="py-8 text-center">
+                <p className="text-gray-500">Loading bookings...</p>
+              </CardContent>
+            </Card>
+          ) : bookings.length === 0 ? (
             <Card>
               <CardContent className="py-8 text-center">
                 <AlertCircle className="mx-auto h-12 w-12 text-gray-300 mb-4" />
@@ -114,7 +132,8 @@ export function Dashboard() {
           ) : (
             <div className="grid gap-4">
               {bookings.map((booking) => {
-                const status = statusConfig[booking.status];
+                const statusKey = booking.status || 'pending';
+                const status = statusConfig[statusKey as keyof typeof statusConfig] || statusConfig.pending;
                 const StatusIcon = status.icon;
                 const canCancel = booking.status === 'confirmed' || booking.status === 'pending';
                 
@@ -122,17 +141,15 @@ export function Dashboard() {
                   <Card key={booking.id}>
                     <CardContent className="p-6">
                       <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        <img
-                          src={booking.bike.image}
-                          alt={booking.bike.name}
-                          className="w-full md:w-32 h-24 object-cover rounded-md"
-                        />
+                        <div className="w-full md:w-32 h-24 bg-gray-200 rounded-md flex items-center justify-center">
+                          <Bike className="w-8 h-8 text-gray-400" />
+                        </div>
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold">{booking.bike.name}</h3>
+                            <h3 className="font-semibold">{booking.vehicleName || 'Unknown Vehicle'}</h3>
                             <Badge className={status.color}>
                               <StatusIcon className="h-3 w-3 mr-1" />
-                              {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                              {statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}
                             </Badge>
                           </div>
                           <p className="text-sm text-gray-500">
@@ -145,7 +162,7 @@ export function Dashboard() {
                             </span>
                             <span className="flex items-center gap-1">
                               <IndianRupee className="h-4 w-4 text-gray-400" />
-                              ₹{booking.totalPrice}
+                              {booking.totalPrice ?? 0}
                             </span>
                           </div>
                         </div>
@@ -160,7 +177,7 @@ export function Dashboard() {
                               Cancel
                             </Button>
                           )}
-                          {booking.status === 'cancelled' && (
+                          {booking.status?.toLowerCase() === 'cancelled' && (
                             <span className="text-sm text-red-600 font-medium">Cancelled</span>
                           )}
                         </div>

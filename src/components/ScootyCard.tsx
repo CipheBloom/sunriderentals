@@ -1,4 +1,4 @@
-import type { Scooty } from '@/types';
+import type { VehicleData } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,13 +9,18 @@ import { BookingDialog } from './BookingDialog';
 import { useState } from 'react';
 
 interface ScootyCardProps {
-  scooty: Scooty;
+  scooty: VehicleData;
 }
 
 export function ScootyCard({ scooty }: ScootyCardProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  const isRider = user?.isRider || false;
+  const displayPrice = isRider && scooty.riderPricePerDay 
+    ? scooty.riderPricePerDay 
+    : scooty.pricePerDay;
 
   const handleBookClick = () => {
     if (isAuthenticated) {
@@ -37,9 +42,21 @@ export function ScootyCard({ scooty }: ScootyCardProps) {
             />
             <div className="absolute top-2 right-2">
               <Badge variant="secondary" className="bg-white/90">
-                ₹{scooty.pricePerDay}/day
+                {isRider && scooty.riderPricePerDay ? (
+                  <span>
+                    <span className="line-through text-gray-400 text-xs">₹{scooty.pricePerDay}</span>
+                    <span className="text-green-600 ml-1">₹{scooty.riderPricePerDay}/day</span>
+                  </span>
+                ) : (
+                  `₹${scooty.pricePerDay}/day`
+                )}
               </Badge>
             </div>
+            {isRider && (
+              <div className="absolute top-2 left-2">
+                <Badge className="bg-green-600 text-white">Rider Price</Badge>
+              </div>
+            )}
           </div>
         </CardHeader>
         
@@ -61,9 +78,14 @@ export function ScootyCard({ scooty }: ScootyCardProps) {
           </div>
           
           <div className="flex items-center justify-between">
-            <span className="text-lg font-bold text-blue-600">
-              ₹{scooty.pricePerDay}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold text-blue-600">
+                ₹{displayPrice}
+              </span>
+              {isRider && scooty.riderPricePerDay && (
+                <span className="text-xs text-green-600">Rider discount applied!</span>
+              )}
+            </div>
             <Badge variant={scooty.available ? 'default' : 'secondary'}>
               {scooty.available ? 'Available' : 'Unavailable'}
             </Badge>
@@ -82,7 +104,7 @@ export function ScootyCard({ scooty }: ScootyCardProps) {
       </Card>
       
       <BookingDialog 
-        bike={scooty} 
+        bike={{...scooty, pricePerDay: displayPrice}} 
         isOpen={isBookingOpen} 
         onClose={() => setIsBookingOpen(false)} 
       />

@@ -4,30 +4,38 @@ import { Mail, Phone, MapPin, Edit2, Camera, LogOut, Bike, Calendar, IndianRupee
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import type { Booking } from '@/types';
+import { userAPI, bookingAPI, type BookingData } from '@/lib/api';
 
 export function ProfilePage() {
   const { user, isAuthenticated, logout, getAvatarUrl } = useAuth();
   const navigate = useNavigate();
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<BookingData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const phoneInputRef = React.useRef<HTMLInputElement>(null);
 
+  // Load user data and bookings from MongoDB
   useEffect(() => {
     if (user) {
-      const allBookings = JSON.parse(localStorage.getItem('sunride_bookings') || '[]');
-      const userBookings = allBookings.filter((b: Booking) => b.userId === user.id);
-      setBookings(userBookings);
+      // Set initial values from user context
+      setPhone(user.phone || '');
+      setAddress(user.address || '');
       
-      // Load saved profile data
-      const savedProfile = localStorage.getItem(`sunride_profile_${user.id}`);
-      if (savedProfile) {
-        const profile = JSON.parse(savedProfile);
-        setPhone(profile.phone || '');
-        setAddress(profile.address || '');
-      }
+      // Fetch bookings from MongoDB
+      const fetchBookings = async () => {
+        try {
+          const userBookings = await bookingAPI.getByUser(user.id);
+          setBookings(userBookings);
+        } catch (error) {
+          console.error('❌ Failed to fetch bookings:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      fetchBookings();
     }
   }, [user]);
 
@@ -51,32 +59,41 @@ export function ProfilePage() {
     );
   }
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     if (user) {
-      localStorage.setItem(`sunride_profile_${user.id}`, JSON.stringify({
-        phone,
-        address,
-      }));
-      setIsEditing(false);
+      setIsLoading(true);
+      try {
+        await userAPI.update(user.id, {
+          phone,
+          address
+        });
+        console.log('✅ Profile updated in MongoDB');
+        setIsEditing(false);
+      } catch (error) {
+        console.error('❌ Failed to update profile:', error);
+        alert('Failed to save profile. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const handleCancelBooking = (bookingId: string) => {
+  const handleCancelBooking = async (bookingId: string) => {
     if (!confirm('Are you sure you want to cancel this booking?')) return;
     
-    const allBookings = JSON.parse(localStorage.getItem('sunride_bookings') || '[]');
-    const updatedBookings = allBookings.map((b: Booking) => {
-      if (b.id === bookingId) {
-        return { ...b, status: 'cancelled' as const };
+    try {
+      await bookingAPI.update(bookingId, { status: 'cancelled' });
+      console.log('✅ Booking cancelled in MongoDB');
+      
+      // Refresh bookings
+      if (user) {
+        const userBookings = await bookingAPI.getByUser(user.id);
+        setBookings(userBookings);
       }
-      return b;
-    });
-    
-    localStorage.setItem('sunride_bookings', JSON.stringify(updatedBookings));
-    
-    // Update local state
-    const userBookings = updatedBookings.filter((b: Booking) => b.userId === user?.id);
-    setBookings(userBookings);
+    } catch (error) {
+      console.error('❌ Failed to cancel booking:', error);
+      alert('Failed to cancel booking. Please try again.');
+    }
   };
 
   const handleLogout = () => {
@@ -84,7 +101,7 @@ export function ProfilePage() {
     navigate('/');
   };
 
-  const totalSpent = bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + b.totalPrice, 0);
+  const totalSpent = bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + (b.totalPrice || 0), 0);
   const activeBookings = bookings.filter(b => b.status === 'confirmed').length;
 
   return (
@@ -198,7 +215,12 @@ export function ProfilePage() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={handleSaveProfile}>Save Changes</Button>
+                  <Button 
+                  onClick={handleSaveProfile} 
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Saving...' : 'Save Changes'}
+                </Button>
                   <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
                 </div>
               </div>
@@ -229,7 +251,9 @@ export function ProfilePage() {
             <CardTitle>Recent Bookings</CardTitle>
           </CardHeader>
           <CardContent>
-            {bookings.length === 0 ? (
+            {isLoading ? (
+              <p className="text-gray-500 text-center py-4">Loading bookings...</p>
+            ) : bookings.length === 0 ? (
               <p className="text-gray-500 text-center py-4">No bookings yet</p>
             ) : (
               <div className="space-y-3">
@@ -237,13 +261,11 @@ export function ProfilePage() {
                   const canCancel = booking.status === 'confirmed' || booking.status === 'pending';
                   return (
                     <div key={booking.id} className="flex items-center gap-4 p-3 bg-muted rounded-lg">
-                      <img
-                        src={booking.bike.image}
-                        alt={booking.bike.name}
-                        className="w-16 h-12 object-cover rounded"
-                      />
+                      <div className="w-16 h-12 bg-gray-200 rounded flex items-center justify-center">
+                        <Bike className="w-6 h-6 text-gray-400" />
+                      </div>
                       <div className="flex-1">
-                        <p className="font-medium">{booking.bike.name}</p>
+                        <p className="font-medium">{booking.vehicleName || 'Unknown Vehicle'}</p>
                         <p className="text-sm text-gray-500">
                           {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
                         </p>

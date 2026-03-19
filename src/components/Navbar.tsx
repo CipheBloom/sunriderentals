@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { User, LogOut, X, Home, Bike, UserCircle, ChevronRight, MoreVertical } from 'lucide-react';
+import { User, LogOut, X, Home, Bike, UserCircle, ChevronRight, MoreVertical, Briefcase } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
@@ -87,6 +87,9 @@ export function Navbar() {
               </Link>
               <Link to="/scooty" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                 Scootys
+              </Link>
+              <Link to="/rider-apply" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                Become a Rider
               </Link>
               <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                 Profile
@@ -229,6 +232,21 @@ export function Navbar() {
                     <p className="text-sm text-gray-500">Manage your account</p>
                   </div>
                   <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                </Link>
+
+                <Link
+                  to="/rider-apply"
+                  onClick={handleMenuItemClick}
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-all duration-200 group"
+                >
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                    <Briefcase className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-900">Become a Rider</p>
+                    <p className="text-sm text-gray-500">Apply for delivery jobs</p>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-green-600 transition-colors" />
                 </Link>
               </div>
             </div>

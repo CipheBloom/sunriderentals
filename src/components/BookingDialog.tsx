@@ -4,6 +4,7 @@ import { format, startOfDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { bookingAPI } from '@/lib/api';
 import {
   Dialog,
   DialogContent,
@@ -80,55 +81,53 @@ export function BookingDialog({ bike, isOpen, onClose }: BookingDialogProps) {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Create booking
-    const booking: Booking = {
-      id: Math.random().toString(36).substr(2, 9),
-      userId: user?.id || '',
-      userName: user?.name || 'Guest User',
-      userEmail: user?.email || '',
-      userPhone: phone,
-      bikeId: bike.id,
-      bike,
-      startDate,
-      endDate,
-      totalPrice,
-      status: 'confirmed', // Auto-confirm for simple booking
-      paymentStatus: 'pending', // Payment pending
-      createdAt: new Date(),
-    };
-
-    // Save to localStorage
-    const existingBookings = JSON.parse(localStorage.getItem('sunride_bookings') || '[]');
-    existingBookings.push(booking);
-    localStorage.setItem('sunride_bookings', JSON.stringify(existingBookings));
-
-    setBookingId(booking.id);
-
-    // Send confirmation emails
     try {
-      await EmailService.sendBookingConfirmation({
-        id: booking.id,
-        userName: booking.userName,
-        userEmail: booking.userEmail,
-        userPhone: booking.userPhone,
-        bikeName: booking.bike.name,
-        bikeCategory: booking.bike.category,
-        startDate: booking.startDate,
-        endDate: booking.endDate,
-        totalPrice: booking.totalPrice,
-        createdAt: booking.createdAt,
-      });
-      console.log('Emails sent successfully');
-    } catch (emailError) {
-      console.error('Email sending failed:', emailError);
-      // Continue with booking even if email fails
-    }
+      // Create booking in MongoDB
+      const bookingId = 'booking_' + Date.now();
+      const booking = {
+        id: bookingId,
+        userId: user?.id || '',
+        userName: user?.name || '',
+        userEmail: user?.email || '',
+        userPhone: phone,
+        vehicleId: bike.id,
+        vehicleName: bike.name,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        totalPrice: totalPrice,
+        status: 'pending' as const
+      };
 
-    setIsSubmitting(false);
-    setBookingConfirmed(true);
+      await bookingAPI.create(booking);
+      console.log('✅ Booking saved to MongoDB');
+
+      setBookingId(bookingId);
+
+      // Send confirmation emails (optional - can fail silently)
+      try {
+        await EmailService.sendBookingConfirmation({
+          id: bookingId,
+          userName: user?.name || 'Guest User',
+          userEmail: user?.email || '',
+          userPhone: phone,
+          bikeName: bike.name,
+          bikeCategory: bike.category,
+          startDate: startDate,
+          endDate: endDate,
+          totalPrice: totalPrice,
+          createdAt: new Date(),
+        });
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+      }
+
+      setIsSubmitting(false);
+      setBookingConfirmed(true);
+    } catch (error) {
+      console.error('❌ Failed to save booking:', error);
+      setIsSubmitting(false);
+      alert('Failed to create booking. Please try again.');
+    }
   };
 
   const handleClose = () => {
