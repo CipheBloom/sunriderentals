@@ -118,61 +118,74 @@ export function ProfilePage() {
   const activeBookings = bookings.filter(b => b.status === 'confirmed').length;
 
   return (
-    <div className="container py-8 px-4 md:px-6">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-8 px-4 md:px-6">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Profile Header */}
-        <Card>
-          <CardContent className="p-6">
+        {/* Profile Header - Modern Glassmorphism */}
+        <Card className="overflow-hidden border-0 shadow-xl shadow-slate-200/50 bg-white">
+          <div className="h-32 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
+          <CardContent className="p-6 -mt-16">
             <div className="flex flex-col md:flex-row items-center gap-6">
               {/* Profile Image */}
               <div className="relative">
-                <img
-                  src={getAvatarUrl()}
-                  alt={user?.name}
-                  className="w-32 h-32 rounded-full object-cover border-4 border-blue-100"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || '')}&size=128&background=f97316&color=fff`;
-                  }}
-                />
-                <button className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full hover:bg-primary/90">
+                <div className="p-1 rounded-full bg-white shadow-xl">
+                  <img
+                    src={getAvatarUrl()}
+                    alt={user?.name}
+                    className="w-32 h-32 rounded-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || '')}&size=128&background=f97316&color=fff`;
+                    }}
+                  />
+                </div>
+                <button className="absolute bottom-2 right-2 p-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-lg transition-all hover:scale-110">
                   <Camera className="w-4 h-4" />
                 </button>
               </div>
 
               {/* User Info */}
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-3">
-                  <h1 className="text-2xl font-bold">{user?.name}</h1>
+              <div className="flex-1 text-center md:text-left pt-2 md:pt-16">
+                <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
+                  <h1 className="text-2xl font-bold text-slate-900">{user?.name}</h1>
                   {user?.isRider ? (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg border-2 border-green-400">
-                      <Bike className="w-4 h-4 mr-1" />
-                      Rider Approved
+                    <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/30">
+                      <Bike className="w-4 h-4 mr-1.5" />
+                      Rider
                     </span>
                   ) : riderApplication ? (
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shadow-lg border-2 ${
+                    <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg ${
                       riderApplication.status === 'pending' 
-                        ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-yellow-400'
+                        ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-amber-500/30'
                         : riderApplication.status === 'rejected'
-                        ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-400'
-                        : 'bg-gradient-to-r from-gray-400 to-gray-500 text-white border-gray-400'
+                        ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-red-500/30'
+                        : 'bg-gradient-to-r from-slate-400 to-slate-500 text-white'
                     }`}>
-                      <Bike className="w-4 h-4 mr-1" />
-                      {riderApplication.status === 'pending' && 'Rider Application Pending'}
-                      {riderApplication.status === 'rejected' && 'Rider Application Rejected'}
-                      {riderApplication.status === 'approved' && 'Rider Approved'}
+                      <Bike className="w-4 h-4 mr-1.5" />
+                      {riderApplication.status === 'pending' && 'Pending'}
+                      {riderApplication.status === 'rejected' && 'Rejected'}
+                      {riderApplication.status === 'approved' && 'Approved'}
                     </span>
                   ) : null}
                 </div>
-                <div className="flex items-center justify-center md:justify-start gap-2 mt-2 text-gray-500">
+                <div className="flex items-center justify-center md:justify-start gap-2 mt-2 text-slate-500">
                   <Mail className="w-4 h-4" />
                   <span>{user?.email}</span>
                 </div>
-                <div className="flex gap-2 mt-4 justify-center md:justify-start">
-                  <Button variant="outline" size="sm" onClick={() => setIsEditing(!isEditing)}>
+                <div className="flex gap-3 mt-4 justify-center md:justify-start">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setIsEditing(!isEditing)}
+                    className="border-2 border-slate-200 hover:border-blue-400 hover:text-blue-600 rounded-xl"
+                  >
                     <Edit2 className="w-4 h-4 mr-2" />
                     Edit Profile
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={handleLogout}>
+                  <Button 
+                    variant="destructive" 
+                    size="sm" 
+                    onClick={handleLogout}
+                    className="bg-red-500 hover:bg-red-600 rounded-xl"
+                  >
                     <LogOut className="w-4 h-4 mr-2" />
                     Logout
                   </Button>
@@ -182,33 +195,47 @@ export function ProfilePage() {
           </CardContent>
         </Card>
 
-        {/* Stats */}
+        {/* Stats - Modern Gradient Cards */}
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="border-0 shadow-lg shadow-blue-200/50 overflow-hidden">
+            <div className="h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-              <Bike className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-600">Total Bookings</CardTitle>
+              <div className="p-2 rounded-lg bg-blue-50">
+                <Bike className="h-4 w-4 text-blue-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{bookings.length}</div>
+              <div className="text-3xl font-bold text-slate-900">{bookings.length}</div>
+              <p className="text-xs text-slate-500 mt-1">All time bookings</p>
             </CardContent>
           </Card>
-          <Card>
+          
+          <Card className="border-0 shadow-lg shadow-emerald-200/50 overflow-hidden">
+            <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-600"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Rentals</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-600">Active Rentals</CardTitle>
+              <div className="p-2 rounded-lg bg-emerald-50">
+                <Calendar className="h-4 w-4 text-emerald-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{activeBookings}</div>
+              <div className="text-3xl font-bold text-slate-900">{activeBookings}</div>
+              <p className="text-xs text-slate-500 mt-1">Currently active</p>
             </CardContent>
           </Card>
-          <Card>
+          
+          <Card className="border-0 shadow-lg shadow-purple-200/50 overflow-hidden">
+            <div className="h-1 bg-gradient-to-r from-purple-500 to-violet-600"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
-              <IndianRupee className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-slate-600">Total Spent</CardTitle>
+              <div className="p-2 rounded-lg bg-purple-50">
+                <IndianRupee className="h-4 w-4 text-purple-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₹{totalSpent}</div>
+              <div className="text-3xl font-bold text-slate-900">₹{totalSpent}</div>
+              <p className="text-xs text-slate-500 mt-1">Lifetime spending</p>
             </CardContent>
           </Card>
         </div>
