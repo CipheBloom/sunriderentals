@@ -51,5 +51,14 @@ app.get('/vehicles', async (req, res) => {
   }
 });
 
+app.get('/health', async (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Test route
+app.get('/test', async (req, res) => {
+  res.json({ message: 'API is working!' });
+});
+
 // Export as Netlify Function
 module.exports.handler = serverless(app);
