@@ -4,12 +4,13 @@ import { Mail, Phone, MapPin, Edit2, Camera, LogOut, Bike, Calendar, IndianRupee
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { userAPI, bookingAPI, type BookingData } from '@/lib/api';
+import { userAPI, bookingAPI, adminAPI, type BookingData, type RiderApplicationData } from '@/lib/api';
 
 export function ProfilePage() {
   const { user, isAuthenticated, logout, getAvatarUrl } = useAuth();
   const navigate = useNavigate();
   const [bookings, setBookings] = useState<BookingData[]>([]);
+  const [riderApplication, setRiderApplication] = useState<RiderApplicationData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [phone, setPhone] = useState('');
@@ -30,12 +31,25 @@ export function ProfilePage() {
           setBookings(userBookings);
         } catch (error) {
           console.error('❌ Failed to fetch bookings:', error);
+        }
+      };
+      
+      // Fetch rider application status
+      const fetchRiderApplication = async () => {
+        try {
+          // Get all applications and find user's application
+          const applications = await adminAPI.getAllRiderApplications();
+          const userApp = applications.find((app: RiderApplicationData) => app.userId === user.id);
+          setRiderApplication(userApp || null);
+        } catch (error) {
+          console.error('❌ Failed to fetch rider application:', error);
         } finally {
           setIsLoading(false);
         }
       };
       
       fetchBookings();
+      fetchRiderApplication();
     }
   }, [user]);
 
@@ -130,12 +144,25 @@ export function ProfilePage() {
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-3">
                   <h1 className="text-2xl font-bold">{user?.name}</h1>
-                  {user?.isRider && (
+                  {user?.isRider ? (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg border-2 border-green-400">
                       <Bike className="w-4 h-4 mr-1" />
-                      Rider
+                      Rider Approved
                     </span>
-                  )}
+                  ) : riderApplication ? (
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold shadow-lg border-2 ${
+                      riderApplication.status === 'pending' 
+                        ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-yellow-400'
+                        : riderApplication.status === 'rejected'
+                        ? 'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-400'
+                        : 'bg-gradient-to-r from-gray-400 to-gray-500 text-white border-gray-400'
+                    }`}>
+                      <Bike className="w-4 h-4 mr-1" />
+                      {riderApplication.status === 'pending' && 'Rider Application Pending'}
+                      {riderApplication.status === 'rejected' && 'Rider Application Rejected'}
+                      {riderApplication.status === 'approved' && 'Rider Approved'}
+                    </span>
+                  ) : null}
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-2 mt-2 text-gray-500">
                   <Mail className="w-4 h-4" />
