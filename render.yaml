@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: sunriderentals-api
+    env: node
+    repo: https://github.com/CipheBloom/sunriderentals
+    rootDir: src/backend
+    buildCommand: npm install
+    startCommand: npm run server
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: PORT
+        value: 5000
