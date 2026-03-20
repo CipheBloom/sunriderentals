@@ -58,25 +58,20 @@ export function AdminDashboardPage() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      // Load data sequentially to avoid overwhelming the API
-      const statsData = await adminAPI.getStats();
+      const [statsData, bookingsData, usersData, vehiclesData, riderAppsData] = await Promise.all([
+        adminAPI.getStats(),
+        adminAPI.getAllBookings(),
+        adminAPI.getAllUsers(),
+        adminAPI.getAllVehicles(),
+        adminAPI.getAllRiderApplications(),
+      ]);
       setStats(statsData);
-      
-      const bookingsData = await adminAPI.getAllBookings();
       setBookings(bookingsData);
-      
-      const usersData = await adminAPI.getAllUsers();
       setUsers(usersData);
-      
-      const vehiclesData = await adminAPI.getAllVehicles();
       setVehicles(vehiclesData);
-      
-      const riderAppsData = await adminAPI.getAllRiderApplications();
       setRiderApplications(riderAppsData);
-      
     } catch (error) {
       console.error('❌ Failed to load admin data:', error);
-      alert('Failed to load admin data. Please try again.');
     } finally {
       setIsLoading(false);
     }

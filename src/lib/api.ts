@@ -155,41 +155,41 @@ export const adminAPI = {
 
   // Update vehicle availability
   updateVehicleAvailability: (id: string, available: boolean) =>
-    fetchAPI(`/admin/vehicles/${id}/availability`, {
+    fetchAPI(`/api/vehicles/${id}/availability`, {
       method: 'PUT',
       body: JSON.stringify({ available }),
     }),
 
   // Update full vehicle details
   updateVehicle: (id: string, data: Partial<VehicleData>) =>
-    fetchAPI(`/admin/vehicles/${id}`, {
+    fetchAPI(`/api/vehicles/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
 
   // Create new vehicle
   createVehicle: (data: VehicleData) =>
-    fetchAPI('/admin/vehicles', {
+    fetchAPI('/api/vehicles', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
   // Delete vehicle
   deleteVehicle: (id: string) =>
-    fetchAPI(`/admin/vehicles/${id}`, {
+    fetchAPI(`/api/vehicles/${id}`, {
       method: 'DELETE',
     }),
 
   // Update booking status
   updateBookingStatus: (id: string, status: string) =>
-    fetchAPI(`/admin/bookings/${id}/status`, {
+    fetchAPI(`/api/bookings/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status }),
     }),
 
   // Delete booking
   deleteBooking: (id: string) =>
-    fetchAPI(`/admin/bookings/${id}`, {
+    fetchAPI(`/api/bookings/${id}`, {
       method: 'DELETE',
     }),
 
@@ -202,20 +202,20 @@ export const adminAPI = {
 
   // Update rider application status
   updateRiderApplicationStatus: (id: string, status: string, adminNotes?: string) =>
-    fetchAPI(`/admin/rider-applications/${id}/status`, {
+    fetchAPI(`/api/rider-applications/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status, adminNotes }),
     }),
 
   // Delete rider application
   deleteRiderApplication: (id: string) =>
-    fetchAPI(`/admin/rider-applications/${id}`, {
+    fetchAPI(`/api/rider-applications/${id}`, {
       method: 'DELETE',
     }),
 
   // Update user rider status
   updateUserRiderStatus: (userId: string, isRider: boolean) =>
-    fetchAPI(`/admin/users/${userId}/rider-status`, {
+    fetchAPI(`/api/users/${userId}/rider-status`, {
       method: 'PUT',
       body: JSON.stringify({ isRider }),
     }),
