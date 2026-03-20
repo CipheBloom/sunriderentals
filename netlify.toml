@@ -73,6 +73,11 @@
   to = "/.netlify/functions/debug"
   status = 200
 
+[[redirects]]
+  from = "/api/admin/login"
+  to = "/.netlify/functions/admin-login"
+  status = 200
+
 # Redirect all routes to index.html for React Router (must be last)
 [[redirects]]
   from = "/*"

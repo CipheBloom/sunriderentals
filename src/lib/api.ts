@@ -139,7 +139,7 @@ export interface VehicleData {
 export const adminAPI = {
   // Login
   login: (email: string, password: string) =>
-    fetchAPI('/admin/login', {
+    fetchAPI('/api/admin/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     }),
