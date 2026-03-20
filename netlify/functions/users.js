@@ -26,23 +26,30 @@ const User = mongoose.model('User', UserSchema);
 
 exports.handler = async (event, context) => {
   try {
-    const users = await User.find();
+    await connectDB();
+    
+    const users = await User.find().lean();
+    
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(users),
+      body: JSON.stringify(users, null, 2),
     };
   } catch (error) {
+    console.error('❌ Error in users function:', error);
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ 
+        error: error.message,
+        stack: error.stack 
+      }),
     };
   }
 };

@@ -32,23 +32,30 @@ const Booking = mongoose.model('Booking', BookingSchema);
 
 exports.handler = async (event, context) => {
   try {
-    const bookings = await Booking.find();
+    await connectDB();
+    
+    const bookings = await Booking.find().lean();
+    
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(bookings),
+      body: JSON.stringify(bookings, null, 2),
     };
   } catch (error) {
+    console.error('❌ Error in bookings function:', error);
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ 
+        error: error.message,
+        stack: error.stack 
+      }),
     };
   }
 };

@@ -40,23 +40,30 @@ const RiderApplication = mongoose.model('RiderApplication', RiderApplicationSche
 
 exports.handler = async (event, context) => {
   try {
-    const applications = await RiderApplication.find();
+    await connectDB();
+    
+    const applications = await RiderApplication.find().lean();
+    
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(applications),
+      body: JSON.stringify(applications, null, 2),
     };
   } catch (error) {
+    console.error('❌ Error in rider-applications function:', error);
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ 
+        error: error.message,
+        stack: error.stack 
+      }),
     };
   }
 };

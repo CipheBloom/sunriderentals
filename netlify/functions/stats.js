@@ -129,7 +129,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(stats),
+      body: JSON.stringify(stats, null, 2),
     };
   } catch (error) {
     console.error('❌ Error in stats function:', error);

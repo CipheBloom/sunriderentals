@@ -58,7 +58,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify(vehicles),
+      body: JSON.stringify(vehicles, null, 2),
     };
   } catch (error) {
     console.error('❌ Error in vehicles function:', error);
