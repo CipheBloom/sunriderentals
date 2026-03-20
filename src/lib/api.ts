@@ -3,6 +3,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 // Generic fetch wrapper
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${API_URL}${endpoint}`;
+  console.log(`🌐 Fetching: ${url}`);
+  
   const response = await fetch(url, {
     ...options,
     headers: {
@@ -11,11 +13,24 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     },
   });
 
+  console.log(`📊 Response status: ${response.status} for ${url}`);
+
   if (!response.ok) {
     throw new Error(`API Error: ${response.status}`);
   }
 
-  return response.json();
+  const text = await response.text();
+  console.log(`📝 Raw response for ${url}:`, text.substring(0, 200));
+  
+  try {
+    const json = JSON.parse(text);
+    console.log(`✅ JSON parsed successfully for ${url}`);
+    return json;
+  } catch (parseError) {
+    console.error(`❌ JSON parse error for ${url}:`, parseError);
+    console.error(`❌ Raw response that failed to parse:`, text);
+    throw new Error(`JSON.parse: unexpected character at line 1 column 1 of the JSON data`);
+  }
 }
 
 // === USER API ===
