@@ -60,7 +60,7 @@
 
 [[redirects]]
   from = "/api/users"
-  to = "/.netlify/functions/mock-users"
+  to = "/.netlify/functions/simple-test"
   status = 200
 
 [[redirects]]
