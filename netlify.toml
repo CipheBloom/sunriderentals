@@ -18,6 +18,21 @@
   status = 200
 
 [[redirects]]
+  from = "/api/users"
+  to = "/.netlify/functions/users"
+  status = 200
+
+[[redirects]]
+  from = "/api/bookings"
+  to = "/.netlify/functions/bookings"
+  status = 200
+
+[[redirects]]
+  from = "/api/rider-applications"
+  to = "/.netlify/functions/rider-applications"
+  status = 200
+
+[[redirects]]
   from = "/api/test"
   to = "/.netlify/functions/test"
   status = 200
