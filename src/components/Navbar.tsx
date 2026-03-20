@@ -88,12 +88,24 @@ export function Navbar() {
               <Link to="/scooty" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                 Scootys
               </Link>
-              <Link to="/rider-apply" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                Become a Rider
-              </Link>
-              <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                Profile
-              </Link>
+              {/* Show "Become a Rider" only if not authenticated or not a rider */}
+              {(!isAuthenticated || !user?.isRider) && (
+                <Link to="/rider-apply" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                  Become a Rider
+                </Link>
+              )}
+              {/* Show "Rider" link if user is a rider */}
+              {isAuthenticated && user?.isRider && (
+                <Link to="/rider" className="text-gray-700 hover:text-blue-600 font-medium transition-colors flex items-center gap-1">
+                  <Bike className="w-4 h-4 text-green-600" />
+                  Rider
+                </Link>
+              )}
+              {isAuthenticated && (
+                <Link to="/profile" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                  Profile
+                </Link>
+              )}
             </div>
 
             <div className="flex items-center gap-4">
@@ -219,35 +231,59 @@ export function Navbar() {
                   <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-orange-600 transition-colors" />
                 </Link>
 
-                <Link
-                  to="/profile"
-                  onClick={handleMenuItemClick}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-all duration-200 group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                    <UserCircle className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">Profile</p>
-                    <p className="text-sm text-gray-500">Manage your account</p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                </Link>
+                {/* Show Profile only if authenticated */}
+                {isAuthenticated && (
+                  <Link
+                    to="/profile"
+                    onClick={handleMenuItemClick}
+                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-blue-50 transition-all duration-200 group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                      <UserCircle className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Profile</p>
+                      <p className="text-sm text-gray-500">Manage your account</p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                  </Link>
+                )}
 
-                <Link
-                  to="/rider-apply"
-                  onClick={handleMenuItemClick}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-all duration-200 group"
-                >
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                    <Briefcase className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">Become a Rider</p>
-                    <p className="text-sm text-gray-500">Apply for delivery jobs</p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-green-600 transition-colors" />
-                </Link>
+                {/* Show "Become a Rider" only if not authenticated or not a rider */}
+                {(!isAuthenticated || !user?.isRider) && (
+                  <Link
+                    to="/rider-apply"
+                    onClick={handleMenuItemClick}
+                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-all duration-200 group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                      <Briefcase className="h-5 w-5 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Become a Rider</p>
+                      <p className="text-sm text-gray-500">Apply for delivery jobs</p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-green-600 transition-colors" />
+                  </Link>
+                )}
+
+                {/* Show "Rider" link if user is a rider */}
+                {isAuthenticated && user?.isRider && (
+                  <Link
+                    to="/rider"
+                    onClick={handleMenuItemClick}
+                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-green-50 transition-all duration-200 group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                      <Bike className="h-5 w-5 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Rider</p>
+                      <p className="text-sm text-gray-500">Access rider dashboard</p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-green-600 transition-colors" />
+                  </Link>
+                )}
               </div>
             </div>
 
