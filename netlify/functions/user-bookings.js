@@ -57,69 +57,37 @@ exports.handler = async (event, context) => {
   try {
     const dbConnected = await connectDB();
     
-    // Handle POST request - Create new booking
-    if (event.httpMethod === 'POST') {
-      const bookingData = JSON.parse(event.body);
-      
-      if (!dbConnected) {
-        // Return mock response if MongoDB not connected
-        console.log('📝 Creating booking (mock - no MongoDB)');
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            ...bookingData,
-            id: bookingData.id || `booking_${Date.now()}`,
-            createdAt: new Date().toISOString(),
-            status: 'pending'
-          }, null, 2),
-        };
-      }
-      
-      // Create booking in MongoDB
-      const booking = new Booking({
-        ...bookingData,
-        createdAt: new Date(),
-      });
-      
-      await booking.save();
-      console.log('✅ Booking created in MongoDB:', booking.id);
-      
+    // Extract userId from path parameters
+    const userId = event.pathParameters?.userId;
+    
+    if (!userId) {
       return {
-        statusCode: 200,
+        statusCode: 400,
         headers,
-        body: JSON.stringify(booking.toObject(), null, 2),
+        body: JSON.stringify({ error: 'User ID is required' }),
       };
     }
     
-    // Handle GET request - Get all bookings
-    if (event.httpMethod === 'GET') {
-      if (!dbConnected) {
-        // Return empty array if MongoDB not connected
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify([], null, 2),
-        };
-      }
-      
-      const bookings = await Booking.find().lean();
+    if (!dbConnected) {
+      // Return empty array if MongoDB not connected
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify(bookings, null, 2),
+        body: JSON.stringify([], null, 2),
       };
     }
     
-    // Handle unsupported methods
+    // Get bookings for specific user
+    const bookings = await Booking.find({ userId }).lean();
+    
     return {
-      statusCode: 405,
+      statusCode: 200,
       headers,
-      body: JSON.stringify({ error: 'Method not allowed' }),
+      body: JSON.stringify(bookings, null, 2),
     };
     
   } catch (error) {
-    console.error('❌ Error in bookings function:', error);
+    console.error('❌ Error in user bookings function:', error);
     return {
       statusCode: 500,
       headers,
