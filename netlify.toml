@@ -52,25 +52,20 @@
   to = "/.netlify/functions/stats"
   status = 200
 
-# Admin operations (PUT/DELETE)
+# Admin endpoints with mock data
 [[redirects]]
-  from = "/api/vehicles/*"
-  to = "/.netlify/functions/vehicle-operations"
+  from = "/api/bookings"
+  to = "/.netlify/functions/mock-bookings"
   status = 200
 
 [[redirects]]
-  from = "/api/bookings/*"
-  to = "/.netlify/functions/admin-operations"
+  from = "/api/users"
+  to = "/.netlify/functions/mock-users"
   status = 200
 
 [[redirects]]
-  from = "/api/rider-applications/*"
-  to = "/.netlify/functions/admin-operations"
-  status = 200
-
-[[redirects]]
-  from = "/api/users/*"
-  to = "/.netlify/functions/admin-operations"
+  from = "/api/rider-applications"
+  to = "/.netlify/functions/mock-rider-applications"
   status = 200
 
 [[redirects]]
