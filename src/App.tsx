@@ -12,7 +12,7 @@ import { AdminLoginPage } from '@/pages/AdminLoginPage';
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage';
 import { RiderApplicationPage } from '@/pages/RiderApplicationPage';
 
-const GOOGLE_CLIENT_ID = '369730187778-3q3ndvcj7s80ltu4dtno5k35t1vaaj9n.apps.googleusercontent.com'; // Replace with actual client ID
+const GOOGLE_CLIENT_ID = '930196224392-vkfm6kqflbuq33hv0pu84pahteh4mho5.apps.googleusercontent.com'; // Replace with actual client ID
 
 function App() {
   return (
