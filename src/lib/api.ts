@@ -160,77 +160,77 @@ export const adminAPI = {
     }),
 
   // Get all bookings
-  getAllBookings: () => fetchAPI('/api/bookings'),
+  getAllBookings: () => fetchAPI('/bookings'),
 
   // Get all users
-  getAllUsers: () => fetchAPI('/api/users'),
+  getAllUsers: () => fetchAPI('/users'),
 
   // Get all vehicles
-  getAllVehicles: () => fetchAPI('/api/vehicles'),
+  getAllVehicles: () => fetchAPI('/vehicles'),
 
   // Update vehicle availability
   updateVehicleAvailability: (id: string, available: boolean) =>
-    fetchAPI(`/api/vehicles/${id}/availability`, {
+    fetchAPI(`/vehicles/${id}/availability`, {
       method: 'PUT',
       body: JSON.stringify({ available }),
     }),
 
   // Update full vehicle details
   updateVehicle: (id: string, data: Partial<VehicleData>) =>
-    fetchAPI(`/api/vehicles/${id}`, {
+    fetchAPI(`/vehicles/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
 
   // Create new vehicle
   createVehicle: (data: VehicleData) =>
-    fetchAPI('/api/vehicles', {
+    fetchAPI('/vehicles', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
   // Delete vehicle
   deleteVehicle: (id: string) =>
-    fetchAPI(`/api/vehicles/${id}`, {
+    fetchAPI(`/vehicles/${id}`, {
       method: 'DELETE',
     }),
 
   // Update booking status
   updateBookingStatus: (id: string, status: string) =>
-    fetchAPI(`/api/bookings/${id}/status`, {
+    fetchAPI(`/bookings/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status }),
     }),
 
   // Delete booking
   deleteBooking: (id: string) =>
-    fetchAPI(`/api/bookings/${id}`, {
+    fetchAPI(`/bookings/${id}`, {
       method: 'DELETE',
     }),
 
   // Get stats
-  getStats: () => fetchAPI('/api/stats') as Promise<AdminStats>,
+  getStats: () => fetchAPI('/stats') as Promise<AdminStats>,
 
   // === RIDER APPLICATION ROUTES (Admin) ===
   // Get all rider applications
-  getAllRiderApplications: () => fetchAPI('/api/rider-applications'),
+  getAllRiderApplications: () => fetchAPI('/rider-applications'),
 
   // Update rider application status
   updateRiderApplicationStatus: (id: string, status: string, adminNotes?: string) =>
-    fetchAPI(`/api/rider-applications/${id}/status`, {
+    fetchAPI(`/rider-applications/${id}/status`, {
       method: 'PUT',
       body: JSON.stringify({ status, adminNotes }),
     }),
 
   // Delete rider application
   deleteRiderApplication: (id: string) =>
-    fetchAPI(`/api/rider-applications/${id}`, {
+    fetchAPI(`/rider-applications/${id}`, {
       method: 'DELETE',
     }),
 
   // Update user rider status
   updateUserRiderStatus: (userId: string, isRider: boolean) =>
-    fetchAPI(`/api/users/${userId}/rider-status`, {
+    fetchAPI(`/users/${userId}/rider-status`, {
       method: 'PUT',
       body: JSON.stringify({ isRider }),
     }),
