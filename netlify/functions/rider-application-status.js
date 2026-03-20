@@ -43,6 +43,19 @@ const RiderApplicationSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// User Schema for updating rider status
+const UserSchema = new mongoose.Schema({
+  id: String,
+  name: String,
+  email: String,
+  phone: String,
+  picture: String,
+  isRider: { type: Boolean, default: false },
+  address: String,
+  createdAt: { type: Date, default: Date.now },
+});
+
+const User = mongoose.model('User', UserSchema);
 const RiderApplication = mongoose.model('RiderApplication', RiderApplicationSchema);
 
 exports.handler = async (event, context) => {
@@ -133,6 +146,44 @@ exports.handler = async (event, context) => {
       }
       
       console.log('✅ Rider application status updated in MongoDB:', application.id, '→', status);
+      
+      // If application is approved, update user's rider status
+      if (status === 'approved' && application.userId) {
+        try {
+          const userUpdate = await User.findOneAndUpdate(
+            { id: application.userId },
+            { isRider: true, updatedAt: new Date() },
+            { new: true, upsert: false }
+          );
+          
+          if (userUpdate) {
+            console.log('✅ User rider status updated to true for:', application.userId);
+          } else {
+            console.log('⚠️ User not found for rider status update:', application.userId);
+          }
+        } catch (userError) {
+          console.error('❌ Error updating user rider status:', userError);
+          // Don't fail the whole operation if user update fails
+        }
+      }
+      
+      // If application is rejected, ensure user rider status is false
+      if (status === 'rejected' && application.userId) {
+        try {
+          const userUpdate = await User.findOneAndUpdate(
+            { id: application.userId },
+            { isRider: false, updatedAt: new Date() },
+            { new: true, upsert: false }
+          );
+          
+          if (userUpdate) {
+            console.log('✅ User rider status updated to false for:', application.userId);
+          }
+        } catch (userError) {
+          console.error('❌ Error updating user rider status:', userError);
+          // Don't fail the whole operation if user update fails
+        }
+      }
       
       return {
         statusCode: 200,
