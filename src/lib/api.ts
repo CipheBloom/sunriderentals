@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // Generic fetch wrapper
 async function fetchAPI(endpoint: string, options: RequestInit = {}) {
-  const url = `${API_URL}/api${endpoint}`;
+  const url = `${API_URL}${endpoint}`;
   const response = await fetch(url, {
     ...options,
     headers: {
