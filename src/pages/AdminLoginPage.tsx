@@ -51,28 +51,28 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-950 p-4">
+      <Card className="w-full max-w-md bg-slate-800 border-slate-700">
         <CardHeader className="text-center">
           <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-2xl">Admin Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl text-white">Admin Login</CardTitle>
+          <CardDescription className="text-slate-300">
             Sign in to manage SunRide Rentals
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700 text-sm">
+              <div className="p-3 bg-red-900/50 border border-red-700 rounded-lg flex items-center gap-2 text-red-300 text-sm">
                 <AlertCircle className="w-4 h-4" />
                 {error}
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2">
+              <Label htmlFor="email" className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-4 h-4" />
                 Email
               </Label>
@@ -88,7 +88,7 @@ export function AdminLoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center gap-2">
+              <Label htmlFor="password" className="flex items-center gap-2 text-slate-300">
                 <Lock className="w-4 h-4" />
                 Password
               </Label>
@@ -105,7 +105,7 @@ export function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -122,7 +122,7 @@ export function AdminLoginPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-gray-500 hover:text-blue-600">
+            <a href="/" className="text-sm text-slate-400 hover:text-blue-400">
               ← Back to Home
             </a>
           </div>

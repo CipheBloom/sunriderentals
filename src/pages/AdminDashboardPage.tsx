@@ -25,11 +25,11 @@ import { VehicleEditDialog } from '@/components/VehicleEditDialog';
 import { adminAPI, type AdminStats, type BookingData, type UserData, type VehicleData, type RiderApplicationData } from '@/lib/api';
 
 const statusConfig = {
-  confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle },
-  pending: { color: 'bg-yellow-100 text-yellow-800', icon: Clock },
-  active: { color: 'bg-blue-100 text-blue-800', icon: CheckCircle },
-  completed: { color: 'bg-gray-100 text-gray-800', icon: CheckCircle },
-  cancelled: { color: 'bg-red-100 text-red-800', icon: Ban },
+  confirmed: { color: 'bg-green-900/50 text-green-300', icon: CheckCircle },
+  pending: { color: 'bg-yellow-900/50 text-yellow-300', icon: Clock },
+  active: { color: 'bg-blue-900/50 text-blue-300', icon: CheckCircle },
+  completed: { color: 'bg-gray-700 text-gray-300', icon: CheckCircle },
+  cancelled: { color: 'bg-red-900/50 text-red-300', icon: Ban },
 };
 
 export function AdminDashboardPage() {
@@ -202,17 +202,17 @@ export function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-slate-800 shadow-sm border-b border-slate-700">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
               <LayoutDashboard className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">Admin Dashboard</h1>
-              <p className="text-sm text-gray-500">SunRide Rentals Management</p>
+              <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
+              <p className="text-sm text-slate-400">SunRide Rentals Management</p>
             </div>
           </div>
           <Button variant="outline" onClick={handleLogout} className="gap-2">
@@ -241,75 +241,75 @@ export function AdminDashboardPage() {
               <>
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                  <Card>
+                  <Card className="bg-slate-800 border-slate-700">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-                      <Calendar className="h-4 w-4 text-blue-600" />
+                      <CardTitle className="text-sm font-medium text-slate-300">Total Bookings</CardTitle>
+                      <Calendar className="h-4 w-4 text-blue-400" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{stats.totalBookings}</div>
+                      <div className="text-2xl font-bold text-white">{stats.totalBookings}</div>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-slate-800 border-slate-700">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                      <Users className="h-4 w-4 text-green-600" />
+                      <CardTitle className="text-sm font-medium text-slate-300">Total Users</CardTitle>
+                      <Users className="h-4 w-4 text-green-400" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{stats.totalUsers}</div>
+                      <div className="text-2xl font-bold text-white">{stats.totalUsers}</div>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-slate-800 border-slate-700">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                      <IndianRupee className="h-4 w-4 text-yellow-600" />
+                      <CardTitle className="text-sm font-medium text-slate-300">Total Revenue</CardTitle>
+                      <IndianRupee className="h-4 w-4 text-yellow-400" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">₹{stats.totalRevenue?.toLocaleString()}</div>
+                      <div className="text-2xl font-bold text-white">₹{stats.totalRevenue?.toLocaleString()}</div>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-slate-800 border-slate-700">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Active Rentals</CardTitle>
-                      <Bike className="h-4 w-4 text-purple-600" />
+                      <CardTitle className="text-sm font-medium text-slate-300">Active Rentals</CardTitle>
+                      <Bike className="h-4 w-4 text-purple-400" />
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{stats.activeBookings}</div>
+                      <div className="text-2xl font-bold text-white">{stats.activeBookings}</div>
                     </CardContent>
                   </Card>
                 </div>
 
                 {/* Status Breakdown */}
-                <Card>
+                <Card className="bg-slate-800 border-slate-700">
                   <CardHeader>
-                    <CardTitle>Booking Status Breakdown</CardTitle>
+                    <CardTitle className="text-white">Booking Status Breakdown</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="p-4 bg-yellow-50 rounded-lg">
-                        <p className="text-sm text-yellow-700">Pending</p>
-                        <p className="text-2xl font-bold text-yellow-800">{stats.pendingBookings}</p>
+                      <div className="p-4 bg-yellow-900/50 rounded-lg">
+                        <p className="text-sm text-yellow-300">Pending</p>
+                        <p className="text-2xl font-bold text-yellow-200">{stats.pendingBookings}</p>
                       </div>
-                      <div className="p-4 bg-green-50 rounded-lg">
-                        <p className="text-sm text-green-700">Confirmed</p>
-                        <p className="text-2xl font-bold text-green-800">{stats.activeBookings}</p>
+                      <div className="p-4 bg-green-900/50 rounded-lg">
+                        <p className="text-sm text-green-300">Confirmed</p>
+                        <p className="text-2xl font-bold text-green-200">{stats.activeBookings}</p>
                       </div>
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-gray-700">Completed</p>
-                        <p className="text-2xl font-bold text-gray-800">{stats.completedBookings}</p>
+                      <div className="p-4 bg-gray-700 rounded-lg">
+                        <p className="text-sm text-gray-300">Completed</p>
+                        <p className="text-2xl font-bold text-gray-200">{stats.completedBookings}</p>
                       </div>
-                      <div className="p-4 bg-red-50 rounded-lg">
-                        <p className="text-sm text-red-700">Cancelled</p>
-                        <p className="text-2xl font-bold text-red-800">{stats.cancelledBookings}</p>
+                      <div className="p-4 bg-red-900/50 rounded-lg">
+                        <p className="text-sm text-red-300">Cancelled</p>
+                        <p className="text-2xl font-bold text-red-200">{stats.cancelledBookings}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Recent Bookings */}
-                <Card>
+                <Card className="bg-slate-800 border-slate-700">
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>Recent Bookings</CardTitle>
+                    <CardTitle className="text-white">Recent Bookings</CardTitle>
                     <Button variant="outline" size="sm" onClick={() => setActiveTab('bookings')}>
                       View All
                     </Button>
@@ -320,11 +320,11 @@ export function AdminDashboardPage() {
                         const statusKey = booking.status || 'pending';
                         const status = statusConfig[statusKey as keyof typeof statusConfig] || statusConfig.pending;
                         return (
-                          <div key={booking.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div key={booking.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
                             <div>
-                              <p className="font-medium">{booking.vehicleName || 'Unknown'}</p>
-                              <p className="text-sm text-gray-500">{booking.userName || booking.userId}</p>
-                              <p className="text-sm text-gray-500">
+                              <p className="font-medium text-white">{booking.vehicleName || 'Unknown'}</p>
+                              <p className="text-sm text-slate-400">{booking.userName || booking.userId}</p>
+                              <p className="text-sm text-slate-400">
                                 {new Date(booking.startDate).toLocaleDateString()} - ₹{booking.totalPrice}
                               </p>
                             </div>
@@ -343,16 +343,16 @@ export function AdminDashboardPage() {
 
           {/* Bookings Tab */}
           <TabsContent value="bookings">
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>All Bookings</CardTitle>
+                <CardTitle className="text-white">All Bookings</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-gray-400" />
+                  <Search className="w-4 h-4 text-slate-400" />
                   <Input
                     placeholder="Search bookings..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64"
+                    className="w-64 bg-slate-700 border-slate-600 text-white"
                   />
                 </div>
               </CardHeader>
@@ -367,26 +367,26 @@ export function AdminDashboardPage() {
                       const StatusIcon = status.icon;
                       
                       return (
-                        <div key={booking.id} className="p-4 border rounded-lg">
+                        <div key={booking.id} className="p-4 border border-slate-600 rounded-lg">
                           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-semibold">{booking.vehicleName || 'Unknown Vehicle'}</h3>
+                                <h3 className="font-semibold text-white">{booking.vehicleName || 'Unknown Vehicle'}</h3>
                                 <Badge className={status.color}>
                                   <StatusIcon className="w-3 h-3 mr-1" />
                                   {booking.status}
                                 </Badge>
                               </div>
-                              <p className="text-sm text-gray-500">Booking ID: {booking.id}</p>
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-slate-400">Booking ID: {booking.id}</p>
+                              <p className="text-sm text-slate-400">
                                 Dates: {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
                               </p>
-                              <p className="text-sm text-gray-500">Price: ₹{booking.totalPrice}</p>
-                              <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-100">
-                                <p className="text-sm font-medium text-blue-800">Customer Details</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Name:</span> {booking.userName || 'Unknown'}</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Email:</span> {booking.userEmail || 'Unknown'}</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Phone:</span> {booking.userPhone || 'Not provided'}</p>
+                              <p className="text-sm text-slate-400">Price: ₹{booking.totalPrice}</p>
+                              <div className="mt-2 p-2 bg-blue-900/30 rounded border border-blue-700">
+                                <p className="text-sm font-medium text-blue-300">Customer Details</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Name:</span> {booking.userName || 'Unknown'}</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Email:</span> {booking.userEmail || 'Unknown'}</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Phone:</span> {booking.userPhone || 'Not provided'}</p>
                               </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
@@ -436,16 +436,16 @@ export function AdminDashboardPage() {
 
           {/* Users Tab */}
           <TabsContent value="users">
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>All Users</CardTitle>
+                <CardTitle className="text-white">All Users</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-gray-400" />
+                  <Search className="w-4 h-4 text-slate-400" />
                   <Input
                     placeholder="Search users..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64"
+                    className="w-64 bg-slate-700 border-slate-600 text-white"
                   />
                 </div>
               </CardHeader>
@@ -455,18 +455,18 @@ export function AdminDashboardPage() {
                 ) : (
                   <div className="grid gap-3">
                     {filteredUsers.map((user) => (
-                      <div key={user.id} className="p-4 border rounded-lg">
+                      <div key={user.id} className="p-4 border border-slate-600 rounded-lg">
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-semibold">{user.name}</h3>
+                              <h3 className="font-semibold text-white">{user.name}</h3>
                               {user.isRider && (
-                                <Badge className="bg-green-100 text-green-800">Rider</Badge>
+                                <Badge className="bg-green-900/50 text-green-300">Rider</Badge>
                               )}
                             </div>
-                            <p className="text-sm text-gray-500">{user.email}</p>
-                            <p className="text-sm text-gray-500">Phone: {user.phone || 'Not provided'}</p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-slate-400">{user.email}</p>
+                            <p className="text-sm text-slate-400">Phone: {user.phone || 'Not provided'}</p>
+                            <p className="text-sm text-slate-400">
                               Joined: {new Date(user.createdAt || Date.now()).toLocaleDateString()}
                             </p>
                           </div>
@@ -494,9 +494,9 @@ export function AdminDashboardPage() {
 
           {/* Vehicles Tab */}
           <TabsContent value="vehicles">
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Vehicle Management</CardTitle>
+                <CardTitle className="text-white">Vehicle Management</CardTitle>
                 <Button onClick={handleAddNewVehicle} className="gap-2">
                   <Plus className="w-4 h-4" />
                   Add New Vehicle
@@ -508,17 +508,17 @@ export function AdminDashboardPage() {
                 ) : (
                   <div className="grid gap-3 md:grid-cols-2">
                     {vehicles.map((vehicle) => (
-                      <div key={vehicle.id} className="p-4 border rounded-lg">
+                      <div key={vehicle.id} className="p-4 border border-slate-600 rounded-lg">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <h3 className="font-semibold">{vehicle.name}</h3>
-                              <Badge className={vehicle.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                              <h3 className="font-semibold text-white">{vehicle.name}</h3>
+                              <Badge className={vehicle.available ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}>
                                 {vehicle.available ? 'Available' : 'Not Available'}
                               </Badge>
                             </div>
-                            <p className="text-sm text-gray-500">₹{vehicle.pricePerDay}/day</p>
-                            <p className="text-sm text-gray-500 mt-1">{vehicle.description?.slice(0, 100)}...</p>
+                            <p className="text-sm text-slate-400">₹{vehicle.pricePerDay}/day</p>
+                            <p className="text-sm text-slate-400 mt-1">{vehicle.description?.slice(0, 100)}...</p>
                           </div>
                           <div className="flex flex-col gap-2">
                             <Button
@@ -554,16 +554,16 @@ export function AdminDashboardPage() {
 
           {/* Rider Applications Tab */}
           <TabsContent value="riders">
-            <Card>
+            <Card className="bg-slate-800 border-slate-700">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Rider Applications</CardTitle>
+                <CardTitle className="text-white">Rider Applications</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-gray-400" />
+                  <Search className="w-4 h-4 text-slate-400" />
                   <Input
                     placeholder="Search applications..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64"
+                    className="w-64 bg-slate-700 border-slate-600 text-white"
                   />
                 </div>
               </CardHeader>
@@ -579,45 +579,45 @@ export function AdminDashboardPage() {
                         app.city?.toLowerCase().includes(searchQuery.toLowerCase())
                       )
                       .map((app) => (
-                        <div key={app.id} className="p-4 border rounded-lg">
+                        <div key={app.id} className="p-4 border border-slate-600 rounded-lg">
                           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <h3 className="font-semibold">{app.fullName}</h3>
+                                <h3 className="font-semibold text-white">{app.fullName}</h3>
                                 <Badge className={
-                                  app.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                  app.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                                  'bg-yellow-100 text-yellow-800'
+                                  app.status === 'approved' ? 'bg-green-900/50 text-green-300' :
+                                  app.status === 'rejected' ? 'bg-red-900/50 text-red-300' :
+                                  'bg-yellow-900/50 text-yellow-300'
                                 }>
                                   {app.status || 'pending'}
                                 </Badge>
                               </div>
-                              <p className="text-sm text-gray-500">Application ID: {app.id}</p>
-                              <p className="text-sm text-gray-500">Age: {app.age} | City: {app.city}</p>
-                              <p className="text-sm text-gray-500">Vehicle: {app.vehicleType} | License: {app.hasLicense ? 'Yes' : 'No'}</p>
+                              <p className="text-sm text-slate-400">Application ID: {app.id}</p>
+                              <p className="text-sm text-slate-400">Age: {app.age} | City: {app.city}</p>
+                              <p className="text-sm text-slate-400">Vehicle: {app.vehicleType} | License: {app.hasLicense ? 'Yes' : 'No'}</p>
                               {app.licenseNumber && (
-                                <p className="text-sm text-gray-500">License #: {app.licenseNumber}</p>
+                                <p className="text-sm text-slate-400">License #: {app.licenseNumber}</p>
                               )}
-                              <p className="text-sm text-gray-500">Experience: {app.experience || 'Not specified'}</p>
-                              <p className="text-sm text-gray-500">Work Area: {app.preferredWorkArea || 'Not specified'}</p>
-                              <p className="text-sm text-gray-500">Availability: {app.availability || 'Not specified'}</p>
+                              <p className="text-sm text-slate-400">Experience: {app.experience || 'Not specified'}</p>
+                              <p className="text-sm text-slate-400">Work Area: {app.preferredWorkArea || 'Not specified'}</p>
+                              <p className="text-sm text-slate-400">Availability: {app.availability || 'Not specified'}</p>
                               {app.additionalInfo && (
-                                <p className="text-sm text-gray-500 mt-2">Additional Info: {app.additionalInfo}</p>
+                                <p className="text-sm text-slate-400 mt-2">Additional Info: {app.additionalInfo}</p>
                               )}
-                              <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-100">
-                                <p className="text-sm font-medium text-blue-800">Applicant Contact</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Email:</span> {app.userEmail || 'Unknown'}</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Phone:</span> {app.userPhone || 'Not provided'}</p>
+                              <div className="mt-2 p-2 bg-blue-900/30 rounded border border-blue-700">
+                                <p className="text-sm font-medium text-blue-300">Applicant Contact</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Email:</span> {app.userEmail || 'Unknown'}</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Phone:</span> {app.userPhone || 'Not provided'}</p>
                               </div>
-                              <div className="mt-2 p-2 bg-yellow-50 rounded border border-yellow-100">
-                                <p className="text-sm font-medium text-yellow-800">Identification Documents</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">Aadhar:</span> {app.aadharNumber || 'Not provided'}</p>
-                                <p className="text-sm text-gray-700"><span className="font-medium">PAN:</span> {app.panNumber || 'Not provided'}</p>
+                              <div className="mt-2 p-2 bg-yellow-900/30 rounded border border-yellow-700">
+                                <p className="text-sm font-medium text-yellow-300">Identification Documents</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">Aadhar:</span> {app.aadharNumber || 'Not provided'}</p>
+                                <p className="text-sm text-slate-300"><span className="font-medium">PAN:</span> {app.panNumber || 'Not provided'}</p>
                               </div>
                               {app.adminNotes && (
-                                <div className="mt-2 p-2 bg-gray-50 rounded">
-                                  <p className="text-sm font-medium">Admin Notes:</p>
-                                  <p className="text-sm text-gray-600">{app.adminNotes}</p>
+                                <div className="mt-2 p-2 bg-gray-700 rounded">
+                                  <p className="text-sm font-medium text-white">Admin Notes:</p>
+                                  <p className="text-sm text-slate-300">{app.adminNotes}</p>
                                 </div>
                               )}
                             </div>
@@ -662,7 +662,7 @@ export function AdminDashboardPage() {
                         </div>
                       ))}
                     {riderApplications.length === 0 && (
-                      <p className="text-center text-gray-500 py-8">No rider applications yet</p>
+                      <p className="text-center text-slate-400 py-8">No rider applications yet</p>
                     )}
                   </div>
                 )}
