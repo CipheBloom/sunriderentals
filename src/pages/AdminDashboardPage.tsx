@@ -151,18 +151,16 @@ export function AdminDashboardPage() {
     }
   };
 
-  const handleUpdateRiderApplicationStatus = async (appId: string, userId: string, status: string, adminNotes?: string) => {
+  const handleUpdateRiderApplicationStatus = async (appId: string, status: string, adminNotes?: string) => {
     try {
       await adminAPI.updateRiderApplicationStatus(appId, status, adminNotes);
-      // If approving, also set user as rider
-      if (status === 'approved') {
-        await adminAPI.updateUserRiderStatus(userId, true);
-        // Refresh users to get updated rider status
-        const updatedUsers = await adminAPI.getAllUsers();
-        setUsers(updatedUsers);
-      }
+      // Refresh applications and users to get updated status
       const updatedApps = await adminAPI.getAllRiderApplications();
       setRiderApplications(updatedApps);
+      
+      // Also refresh users to get updated rider status (backend handles this automatically)
+      const updatedUsers = await adminAPI.getAllUsers();
+      setUsers(updatedUsers);
     } catch (error) {
       console.error('❌ Failed to update rider application status:', error);
       alert('Failed to update status');
@@ -631,7 +629,7 @@ export function AdminDashboardPage() {
                                   className="text-green-600"
                                   onClick={() => {
                                     const notes = prompt('Add admin notes (optional):') || '';
-                                    handleUpdateRiderApplicationStatus(app.id!, app.userId, 'approved', notes);
+                                    handleUpdateRiderApplicationStatus(app.id!, 'approved', notes);
                                   }}
                                 >
                                   <Check className="w-4 h-4 mr-1" />
@@ -645,7 +643,7 @@ export function AdminDashboardPage() {
                                   className="text-red-600"
                                   onClick={() => {
                                     const notes = prompt('Add rejection reason (optional):') || '';
-                                    handleUpdateRiderApplicationStatus(app.id!, app.userId, 'rejected', notes);
+                                    handleUpdateRiderApplicationStatus(app.id!, 'rejected', notes);
                                   }}
                                 >
                                   <Ban className="w-4 h-4 mr-1" />
