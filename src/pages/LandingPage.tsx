@@ -121,7 +121,7 @@ export function LandingPage() {
               )}
             </div>
 
-            {/* Stats */}
+            {/* Stats
             <div className="flex flex-wrap justify-center gap-8 md:gap-16 pt-8 text-white/80">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-white">50+</div>
@@ -135,7 +135,7 @@ export function LandingPage() {
                 <div className="text-3xl md:text-4xl font-bold text-white">4.9</div>
                 <div className="text-sm text-white/60">Rating</div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
