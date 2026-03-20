@@ -264,6 +264,9 @@ export const riderApplicationAPI = {
       method: 'POST',
       body: JSON.stringify(data),
     }),
+  // Get user's own application
+  getByUserId: (userId: string) =>
+    fetchAPI(`/rider-applications?userId=${userId}`) as Promise<RiderApplicationData>,
 };
 
 // === PUBLIC VEHICLE API ===

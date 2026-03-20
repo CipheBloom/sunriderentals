@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Edit2, Camera, LogOut, Bike, Calendar, IndianRupee
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { userAPI, bookingAPI, adminAPI, type BookingData, type RiderApplicationData } from '@/lib/api';
+import { userAPI, bookingAPI, riderApplicationAPI, type BookingData, type RiderApplicationData } from '@/lib/api';
 
 export function ProfilePage() {
   const { user, isAuthenticated, logout, getAvatarUrl } = useAuth();
@@ -37,10 +37,9 @@ export function ProfilePage() {
       // Fetch rider application status
       const fetchRiderApplication = async () => {
         try {
-          // Get all applications and find user's application
-          const applications = await adminAPI.getAllRiderApplications();
-          const userApp = applications.find((app: RiderApplicationData) => app.userId === user.id);
-          setRiderApplication(userApp || null);
+          // Get user's own application
+          const application = await riderApplicationAPI.getByUserId(user.id);
+          setRiderApplication(application || null);
         } catch (error) {
           console.error('❌ Failed to fetch rider application:', error);
         } finally {

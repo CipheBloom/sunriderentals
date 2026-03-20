@@ -147,8 +147,55 @@ exports.handler = async (event, context) => {
       };
     }
     
-    // Handle GET request - Get all rider applications
+    // Handle GET request - Get all rider applications or single by userId
     if (event.httpMethod === 'GET') {
+      // Check if userId query parameter is provided
+      const userId = event.queryStringParameters?.userId;
+      
+      if (userId) {
+        // Fetch single application for specific user
+        console.log(`🔍 Fetching rider application for user: ${userId}`);
+        
+        if (!dbConnected) {
+          // Return mock response for specific user
+          const mockApplication = {
+            id: `rider_app_${userId}`,
+            userId: userId,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+          };
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify(mockApplication, null, 2),
+          };
+        }
+        
+        // Find application by userId
+        const application = await RiderApplication.findOne({ userId }).lean();
+        
+        if (!application) {
+          return {
+            statusCode: 404,
+            headers,
+            body: JSON.stringify({ error: 'No rider application found for this user' }),
+          };
+        }
+        
+        // Ensure id field exists
+        const appWithId = {
+          ...application,
+          id: application.id || application._id?.toString()
+        };
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify(appWithId, null, 2),
+        };
+      }
+      
+      // Otherwise return all applications (admin use)
       if (!dbConnected) {
         // Return sample rider application data only if MongoDB not connected
         console.log('📝 Returning sample rider applications (no MongoDB connection)');

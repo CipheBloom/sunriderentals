@@ -3,7 +3,7 @@ import { Navigate, Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bike, DollarSign, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { adminAPI, type RiderApplicationData } from '@/lib/api';
+import { riderApplicationAPI } from '@/lib/api';
 
 export function RiderPage() {
   const { user, isAuthenticated } = useAuth();
@@ -15,9 +15,8 @@ export function RiderPage() {
       if (!user?.isRider && user?.id) {
         setIsChecking(true);
         try {
-          const applications = await adminAPI.getAllRiderApplications();
-          const userApp = applications.find((app: RiderApplicationData) => app.userId === user.id);
-          if (userApp?.status === 'approved') {
+          const application = await riderApplicationAPI.getByUserId(user.id);
+          if (application?.status === 'approved') {
             // Refresh user data to get updated isRider status
             window.location.reload();
           }
