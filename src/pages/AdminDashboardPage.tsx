@@ -58,20 +58,34 @@ export function AdminDashboardPage() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const [statsData, bookingsData, usersData, vehiclesData, riderAppsData] = await Promise.all([
-        adminAPI.getStats(),
-        adminAPI.getAllBookings(),
-        adminAPI.getAllUsers(),
-        adminAPI.getAllVehicles(),
-        adminAPI.getAllRiderApplications(),
-      ]);
+      console.log('🔄 Loading admin data sequentially...');
+      
+      // Load each endpoint sequentially to identify issues
+      const statsData = await adminAPI.getStats();
+      console.log('✅ Stats loaded:', statsData);
       setStats(statsData);
+      
+      const bookingsData = await adminAPI.getAllBookings();
+      console.log('✅ Bookings loaded:', bookingsData);
       setBookings(bookingsData);
+      
+      const usersData = await adminAPI.getAllUsers();
+      console.log('✅ Users loaded:', usersData);
       setUsers(usersData);
+      
+      const vehiclesData = await adminAPI.getAllVehicles();
+      console.log('✅ Vehicles loaded:', vehiclesData);
       setVehicles(vehiclesData);
+      
+      const riderAppsData = await adminAPI.getAllRiderApplications();
+      console.log('✅ Rider applications loaded:', riderAppsData);
       setRiderApplications(riderAppsData);
+      
+      console.log('✅ All admin data loaded successfully');
     } catch (error) {
       console.error('❌ Failed to load admin data:', error);
+      console.error('❌ Error details:', error instanceof Error ? error.message : String(error));
+      console.error('❌ Stack:', error instanceof Error ? error.stack : 'No stack available');
     } finally {
       setIsLoading(false);
     }
