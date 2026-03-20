@@ -2,9 +2,34 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate, Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Bike, DollarSign, Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { adminAPI, type RiderApplicationData } from '@/lib/api';
 
 export function RiderPage() {
   const { user, isAuthenticated } = useAuth();
+  const [isChecking, setIsChecking] = useState(false);
+
+  // Check if user has been approved but isRider is not updated
+  useEffect(() => {
+    const checkRiderStatus = async () => {
+      if (!user?.isRider && user?.id) {
+        setIsChecking(true);
+        try {
+          const applications = await adminAPI.getAllRiderApplications();
+          const userApp = applications.find((app: RiderApplicationData) => app.userId === user.id);
+          if (userApp?.status === 'approved') {
+            // Refresh user data to get updated isRider status
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error('Failed to check rider status:', error);
+        } finally {
+          setIsChecking(false);
+        }
+      }
+    };
+    checkRiderStatus();
+  }, [user]);
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -14,9 +39,18 @@ export function RiderPage() {
     return (
       <div className="container py-12 text-center">
         <p className="text-gray-500 mb-4">You are not approved as a rider yet.</p>
-        <Link to="/rider-apply" className="text-blue-500 hover:underline">
-          Apply to become a rider
-        </Link>
+        {isChecking ? (
+          <p className="text-sm text-gray-400">Checking application status...</p>
+        ) : (
+          <>
+            <Link to="/rider-apply" className="text-blue-500 hover:underline">
+              Apply to become a rider
+            </Link>
+            <p className="text-sm text-gray-400 mt-4">
+              Already approved? <button onClick={() => window.location.reload()} className="text-blue-500 underline">Refresh page</button>
+            </p>
+          </>
+        )}
       </div>
     );
   }
