@@ -79,6 +79,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/users/:userId/rider-status"
+  to = "/.netlify/functions/user-rider-status"
+  status = 200
+
+[[redirects]]
   from = "/api/rider-applications"
   to = "/.netlify/functions/rider-applications"
   status = 200
