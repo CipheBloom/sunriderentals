@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bike, Calendar, DollarSign, Star } from 'lucide-react';
+import { Bike, DollarSign, Star } from 'lucide-react';
 
 export function RiderPage() {
   const { user, isAuthenticated } = useAuth();
