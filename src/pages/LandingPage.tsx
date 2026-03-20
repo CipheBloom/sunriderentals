@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScootyCard } from '@/components/ScootyCard';
 import { vehicleAPI, type VehicleData } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
 
 export function LandingPage() {
+  const { isAuthenticated } = useAuth();
   const [scooty, setScooty] = useState<VehicleData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,11 +52,13 @@ export function LandingPage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/login">
-                <Button size="lg" variant="outline">
-                  Sign In to Book
-                </Button>
-              </Link>
+              {!isAuthenticated && (
+                <Link to="/login">
+                  <Button size="lg" variant="outline">
+                    Sign In to Book
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -142,13 +146,18 @@ export function LandingPage() {
               Ready to Hit the Road?
             </h2>
             <p className="mx-auto max-w-[600px] text-blue-100">
-              Sign up now and get 10% off on your first booking. Experience the freedom of two wheels.
+              {!isAuthenticated 
+                ? "Sign up now and get 10% off on your first booking. Experience the freedom of two wheels."
+                : "Welcome back! Book your next ride and continue exploring."
+              }
             </p>
-            <Link to="/login">
-              <Button size="lg" variant="secondary" className="bg-white text-blue-500 hover:bg-gray-100">
-                Get Started
-              </Button>
-            </Link>
+            {!isAuthenticated && (
+              <Link to="/login">
+                <Button size="lg" variant="secondary" className="bg-white text-blue-500 hover:bg-gray-100">
+                  Get Started
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>
