@@ -97,9 +97,9 @@ export function VehicleEditDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 border-slate-700">
         <DialogHeader>
-          <DialogTitle>{isNew ? 'Add New Vehicle' : 'Edit Vehicle'}</DialogTitle>
+          <DialogTitle className="text-white">{isNew ? 'Add New Vehicle' : 'Edit Vehicle'}</DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -160,7 +160,7 @@ export function VehicleEditDialog({
               onChange={(e) => handleChange('riderPricePerDay', parseInt(e.target.value) || 0)}
               placeholder="Leave 0 to use regular price"
             />
-            <p className="text-xs text-gray-500">Special discounted price for approved delivery riders</p>
+            <p className="text-xs text-slate-400">Special discounted price for approved delivery riders</p>
           </div>
 
           <div className="space-y-2">
@@ -185,8 +185,8 @@ export function VehicleEditDialog({
           </div>
 
           {/* Specs */}
-          <div className="border rounded-lg p-4 space-y-4">
-            <h4 className="font-medium">Specifications</h4>
+          <div className="border border-slate-600 rounded-lg p-4 space-y-4">
+            <h4 className="font-medium text-white">Specifications</h4>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="engine">Engine</Label>
@@ -228,8 +228,8 @@ export function VehicleEditDialog({
           </div>
 
           {/* Features */}
-          <div className="border rounded-lg p-4 space-y-4">
-            <h4 className="font-medium">Features</h4>
+          <div className="border border-slate-600 rounded-lg p-4 space-y-4">
+            <h4 className="font-medium text-white">Features</h4>
             <div className="flex gap-2">
               <Input
                 value={newFeature}
@@ -245,13 +245,13 @@ export function VehicleEditDialog({
               {formData.features.map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                  className="flex items-center gap-1 bg-blue-900/50 text-blue-300 px-3 py-1 rounded-full text-sm"
                 >
                   {feature}
                   <button
                     type="button"
                     onClick={() => handleRemoveFeature(index)}
-                    className="hover:text-blue-600"
+                    className="hover:text-blue-400"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -267,7 +267,7 @@ export function VehicleEditDialog({
               checked={formData.available}
               onCheckedChange={(checked) => handleChange('available', checked === true)}
             />
-            <Label htmlFor="available" className="cursor-pointer">
+            <Label htmlFor="available" className="cursor-pointer text-slate-300">
               Available for Rent
             </Label>
           </div>
