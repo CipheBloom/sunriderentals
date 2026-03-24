@@ -175,6 +175,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user, syncUser]);
 
+  // Periodic sync to ensure data consistency
+  useEffect(() => {
+    if (user) {
+      const syncInterval = setInterval(() => {
+        console.log('🔄 Periodic user data sync check...');
+        syncUser();
+      }, 60000); // Sync every minute
+      
+      return () => clearInterval(syncInterval);
+    };
+      
+      // Initial sync
+      syncUser();
+      
+      // Cleanup on unmount
+      return syncInterval;
+    }
+  }, [user]);
+
   const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('sunride_user');

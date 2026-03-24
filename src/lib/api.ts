@@ -15,6 +15,11 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
 
   if (!response.ok) {
     console.error(`❌ API Error: ${response.status} ${url}`);
+    
+    // Try to get error details from response
+    const errorText = await response.text();
+    console.error(`❌ Error response body:`, errorText);
+    
     throw new Error(`API Error: ${response.status}`);
   }
 
@@ -27,6 +32,13 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   } catch (parseError) {
     console.error(`❌ JSON parse error for ${url}:`, parseError);
     console.error(`❌ Raw response that failed to parse:`, text);
+    
+    // Check if response is HTML (error page)
+    if (text.includes('<!DOCTYPE html>') || text.includes('<html')) {
+      console.error(`❌ Server returned HTML instead of JSON for ${url}`);
+      throw new Error(`Server Error: HTML response instead of JSON`);
+    }
+    
     throw new Error(`JSON.parse: unexpected character at line 1 column 1 of JSON data`);
   }
 }
