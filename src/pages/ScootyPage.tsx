@@ -19,6 +19,7 @@ export function ScootyPage() {
       setLoading(true);
       setError('');
       const vehicles = await vehicleAPI.getAvailable();
+      console.log('🔍 Loaded vehicles:', vehicles);
       setScooty(vehicles);
     } catch (error) {
       console.error('❌ Error loading vehicles:', error);
@@ -34,7 +35,21 @@ export function ScootyPage() {
   // Separate popular and new models
   const popularModels = filteredscooty.filter(s => s.rating && s.rating >= 4.5).slice(0, 6);
   const newModels = filteredscooty.filter(s => s.isNew || (s.year && s.year >= 2024)).slice(0, 6);
-  const displayModels = activeTab === 'popular' ? popularModels : newModels;
+  
+  // Fallback: if no popular or new models, show all vehicles
+  const displayModels = activeTab === 'popular' 
+    ? (popularModels.length > 0 ? popularModels : filteredscooty.slice(0, 6))
+    : (newModels.length > 0 ? newModels : filteredscooty.slice(0, 6));
+
+  // Debug logging
+  console.log('🔍 Debug info:', {
+    totalScooty: scooty.length,
+    filteredScooty: filteredscooty.length,
+    popularModels: popularModels.length,
+    newModels: newModels.length,
+    activeTab,
+    displayModels: displayModels.length
+  });
 
 
   if (loading) {
@@ -120,12 +135,25 @@ export function ScootyPage() {
           ))}
         </div>
 
-        {displayModels.length === 0 && (
+        {displayModels.length === 0 && !loading && !error && (
           <div className="text-center py-16 animate-bounceIn">
             <div className="inline-block p-6 bg-blue-600 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4 animate-pulse">
               <Bike className="h-12 w-12 text-white" />
             </div>
-            <p className="text-black font-black text-xl bg-blue-100 px-6 py-3 border-4 border-black inline-block">NO VEHICLES AVAILABLE</p>
+            <p className="text-black font-black text-xl bg-blue-100 px-6 py-3 border-4 border-black inline-block mb-4">NO VEHICLES AVAILABLE</p>
+            <p className="text-black font-bold mb-4">
+              {scooty.length === 0 ? 'No vehicles found in database' : 
+               activeTab === 'popular' ? 'No vehicles with 4.5+ rating found' : 
+               'No new models (2024+) found'}
+            </p>
+            {scooty.length > 0 && (
+              <Button 
+                onClick={() => setActiveTab(activeTab === 'popular' ? 'new' : 'popular')}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-black px-6 py-3 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
+              >
+                {activeTab === 'popular' ? 'VIEW NEW MODELS' : 'VIEW POPULAR MODELS'}
+              </Button>
+            )}
           </div>
         )}
       </div>
