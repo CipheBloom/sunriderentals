@@ -83,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('✅ New user created in MongoDB:', newUser);
           setUser(newUser);
           localStorage.setItem('sunride_user', JSON.stringify(newUser));
+          console.log('🔄 User data stored in localStorage:', newUser);
         } else {
           // Merge MongoDB data (phone, address, isRider) with Google auth data
           const mergedUser: User = {
@@ -95,12 +96,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(mergedUser);
           localStorage.setItem('sunride_user', JSON.stringify(mergedUser));
           console.log('✅ User data merged from MongoDB:', mergedUser);
+          console.log('🔄 User data stored in localStorage:', mergedUser);
         }
       } catch (error) {
         console.error('❌ Error syncing user to MongoDB:', error);
         // Fallback to local only
         setUser(userData);
         localStorage.setItem('sunride_user', JSON.stringify(userData));
+        console.log('🔄 User data stored in localStorage:', userData);
       }
     } catch (error) {
       console.error('Error decoding JWT:', error);
@@ -108,17 +111,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const syncUser = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      console.log('❌ No user to sync');
+      return;
+    }
+    
+    console.log('🔄 Syncing user data for:', user.email);
     
     try {
       // Check if user exists in MongoDB
       let existingUser;
       try {
-        console.log('🔄 Syncing user data for:', user.email);
         existingUser = await userAPI.getByEmail(user.email);
+        console.log('📋 Found existing user in MongoDB:', existingUser);
       } catch {
         // User doesn't exist yet
         existingUser = null;
+        console.log('📋 User not found in MongoDB');
       }
 
       if (!existingUser) {
@@ -137,6 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log('✅ User created in MongoDB during sync:', newUser);
         setUser(newUser);
         localStorage.setItem('sunride_user', JSON.stringify(newUser));
+        console.log('🔄 User data stored in localStorage:', newUser);
       } else {
         // Update existing user with latest data
         const updatedUser = {
@@ -150,6 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log('✅ User data synced to MongoDB:', updatedUser);
         setUser(updatedUser);
         localStorage.setItem('sunride_user', JSON.stringify(updatedUser));
+        console.log('🔄 User data stored in localStorage:', updatedUser);
       }
     } catch (error) {
       console.error('❌ Error syncing user:', error);
@@ -158,7 +169,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Sync user on login
   useEffect(() => {
-    if (user && !user.phone) {
+    if (user && (!user.phone || !user.address || !user.createdAt)) {
+      console.log('🔄 User missing required fields, triggering sync...');
       syncUser();
     }
   }, [user, syncUser]);
