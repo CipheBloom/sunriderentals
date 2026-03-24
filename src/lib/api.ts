@@ -90,10 +90,10 @@ export interface BookingData {
 
 export const bookingAPI = {
   // GET all bookings
-  getAll: () => fetchAPI('/bookings'),
+  getAll: (userID: string) => fetchAPI(`/bookings/${userID}`),
 
   // GET user bookings
-  getByUser: (userId: string) => fetchAPI(`/bookings/${userId}`),
+  getByUser: (userId: string) => fetchAPI(`/bookings/user/${userId}`),
 
   // POST new booking
   create: (data: BookingData) =>
