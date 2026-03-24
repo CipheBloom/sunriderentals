@@ -61,21 +61,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         let existingUser;
         try {
-          existingUser = await userAPI.getByEmail(userData.email);
+          console.log('🔄 Checking for existing user in MongoDB:', email);
+          existingUser = await userAPI.getByEmail(email);
         } catch {
           existingUser = null;
         }
 
         if (!existingUser) {
-          await userAPI.create({
-            id: userData.id,
-            name: userData.name,
-            email: userData.email,
-            picture: userData.picture || ''
-          });
-          console.log('✅ New user created in MongoDB');
-          setUser(userData);
-          localStorage.setItem('sunride_user', JSON.stringify(userData));
+          // Create new user in MongoDB
+          const newUser = {
+            id: payload.sub,
+            name: payload.name,
+            email: payload.email,
+            picture: googlePicture || gravatarUrl,
+            phone: '',
+            address: '',
+            isRider: false,
+            createdAt: new Date().toISOString()
+          };
+          await userAPI.create(newUser);
+          console.log('✅ New user created in MongoDB:', newUser);
+          setUser(newUser);
+          localStorage.setItem('sunride_user', JSON.stringify(newUser));
         } else {
           // Merge MongoDB data (phone, address, isRider) with Google auth data
           const mergedUser: User = {
@@ -87,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           };
           setUser(mergedUser);
           localStorage.setItem('sunride_user', JSON.stringify(mergedUser));
-          console.log('✅ User data loaded from MongoDB');
+          console.log('✅ User data merged from MongoDB:', mergedUser);
         }
       } catch (error) {
         console.error('❌ Error syncing user to MongoDB:', error);
@@ -107,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Check if user exists in MongoDB
       let existingUser;
       try {
+        console.log('🔄 Syncing user data for:', user.email);
         existingUser = await userAPI.getByEmail(user.email);
       } catch {
         // User doesn't exist yet
@@ -114,25 +122,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (!existingUser) {
-        // Create user in MongoDB
-        await userAPI.create({
+        // Create user in MongoDB if they don't exist
+        const newUser = {
           id: user.id,
           name: user.name,
           email: user.email,
           picture: user.picture || '',
           phone: user.phone || '',
-          address: user.address || ''
-        });
-        console.log('✅ User synced to MongoDB');
+          address: user.address || '',
+          isRider: false,
+          createdAt: new Date().toISOString()
+        };
+        await userAPI.create(newUser);
+        console.log('✅ User created in MongoDB during sync:', newUser);
+        setUser(newUser);
+        localStorage.setItem('sunride_user', JSON.stringify(newUser));
       } else {
-        // Update existing user info if needed
-        if (existingUser.name !== user.name || existingUser.picture !== user.picture) {
-          await userAPI.update(user.id, {
-            name: user.name,
-            picture: user.picture || ''
-          });
-        }
-        console.log('✅ User already in MongoDB');
+        // Update existing user with latest data
+        const updatedUser = {
+          ...existingUser,
+          name: user.name,
+          picture: user.picture || '',
+          phone: user.phone || existingUser.phone || '',
+          address: user.address || existingUser.address || ''
+        };
+        await userAPI.update(user.id, updatedUser);
+        console.log('✅ User data synced to MongoDB:', updatedUser);
+        setUser(updatedUser);
+        localStorage.setItem('sunride_user', JSON.stringify(updatedUser));
       }
     } catch (error) {
       console.error('❌ Error syncing user:', error);
