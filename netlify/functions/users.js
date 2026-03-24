@@ -22,6 +22,7 @@ const connectDB = async () => {
 // User Schema
 const UserSchema = new mongoose.Schema({
   id: String,
+  googleId: String,
   name: String,
   email: String,
   phone: String,

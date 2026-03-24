@@ -50,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       const userData: User = {
         id: payload.sub,
+        googleId: payload.sub,
         name: payload.name,
         email: payload.email,
         picture: googlePicture || gravatarUrl,
@@ -72,6 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           // Create new user in MongoDB
           const newUser = {
             id: payload.sub,
+            googleId: payload.sub,
             name: payload.name,
             email: payload.email,
             picture: googlePicture || gravatarUrl,
@@ -148,18 +150,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         existingUser = await userAPI.getByEmail(user.email);
         console.log('📋 Found existing user in MongoDB:', existingUser);
       } catch {
-        // User doesn't exist yet
         existingUser = null;
         console.log('📋 User not found in MongoDB');
       }
 
       if (!existingUser) {
-        // Create user in MongoDB if they don't exist
+        // Create user in MongoDB from Google data
         const newUser = {
           id: user.id,
+          googleId: user.id,
           name: user.name,
           email: user.email,
-          picture: user.picture || '',
+          picture: user.picture,
           phone: user.phone || '',
           address: user.address || '',
           isRider: false,
@@ -170,7 +172,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         // Update local React state
         setUser(newUser);
-        console.log('🔄 User data stored in MongoDB:', newUser);
       } else {
         // Update existing user with latest data
         const updatedUser = {

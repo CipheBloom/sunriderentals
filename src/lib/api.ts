@@ -46,6 +46,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
 // === USER API ===
 export interface UserData {
   id: string;
+  googleId: string;
   name: string;
   email: string;
   picture?: string;
