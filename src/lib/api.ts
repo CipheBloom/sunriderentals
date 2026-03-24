@@ -142,8 +142,12 @@ export interface VehicleData {
     power: string;
     mileage: string;
     fuelCapacity: string;
+    weight?: string;
+    maxSpeed?: string;
   };
   available: boolean;
+  rating?: number;
+  isNew?: boolean;
 }
 
 export const adminAPI = {
