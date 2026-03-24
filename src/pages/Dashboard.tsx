@@ -9,10 +9,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 const statusConfig = {
-  confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle },
-  pending: { color: 'bg-yellow-100 text-yellow-800', icon: Clock },
-  completed: { color: 'bg-blue-100 text-blue-800', icon: CheckCircle },
-  cancelled: { color: 'bg-red-100 text-red-800', icon: XCircle },
+  confirmed: { color: 'bg-blue-300 text-black', icon: CheckCircle },
+  pending: { color: 'bg-blue-200 text-black', icon: Clock },
+  completed: { color: 'bg-blue-400 text-black', icon: CheckCircle },
+  cancelled: { color: 'bg-red-100 text-red-600', icon: XCircle },
 };
 
 export function Dashboard() {
@@ -62,13 +62,13 @@ export function Dashboard() {
   }
 
   return (
-    <div className="container py-8 px-4 md:px-6">
+    <div className="container py-8 px-4 md:px-6 bg-blue-200 min-h-screen">
       <div className="flex flex-col space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight">My Bookings</h1>
-            <p className="text-gray-500">
+            <h1 className="text-4xl font-black text-black">MY BOOKINGS</h1>
+            <p className="text-black font-bold text-lg bg-blue-100 p-3 border-4 border-black inline-block">
               Manage your bike rentals and view your booking history
             </p>
           </div>
@@ -76,33 +76,39 @@ export function Dashboard() {
 
         {/* Stats */}
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-              <Bike className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-black text-black">TOTAL BOOKINGS</CardTitle>
+              <div className="p-2 bg-blue-600 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Bike className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{bookings.length}</div>
+              <div className="text-3xl font-black text-black">{bookings.length}</div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Rentals</CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-black text-black">ACTIVE RENTALS</CardTitle>
+              <div className="p-2 bg-blue-600 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <Calendar className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-3xl font-black text-black">
                 {bookings.filter(b => b.status === 'confirmed').length}
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
-              <IndianRupee className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-black text-black">TOTAL SPENT</CardTitle>
+              <div className="p-2 bg-blue-600 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <IndianRupee className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-3xl font-black text-black">
                 ₹{bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + (b.totalPrice || 0), 0)}
               </div>
             </CardContent>
@@ -111,21 +117,23 @@ export function Dashboard() {
 
         {/* Bookings List */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Recent Bookings</h2>
+          <h2 className="text-2xl font-black text-black bg-blue-300 inline-block px-4 py-2 border-4 border-black">RECENT BOOKINGS</h2>
           
           {isLoading ? (
-            <Card>
+            <Card className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardContent className="py-8 text-center">
-                <p className="text-gray-500">Loading bookings...</p>
+                <p className="text-black font-black text-lg">Loading bookings...</p>
               </CardContent>
             </Card>
           ) : bookings.length === 0 ? (
-            <Card>
+            <Card className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardContent className="py-8 text-center">
-                <AlertCircle className="mx-auto h-12 w-12 text-gray-300 mb-4" />
-                <p className="text-gray-500 mb-4">No bookings found</p>
-                <a href="/bikes">
-                  <Button>Browse Bikes</Button>
+                <AlertCircle className="mx-auto h-12 w-12 text-black mb-4" />
+                <p className="text-black font-black text-xl mb-4">NO BOOKINGS FOUND</p>
+                <a href="/scooty">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white font-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all uppercase">
+                    BROWSE SCOOTERS
+                  </Button>
                 </a>
               </CardContent>
             </Card>
@@ -138,30 +146,30 @@ export function Dashboard() {
                 const canCancel = booking.status === 'confirmed' || booking.status === 'pending';
                 
                 return (
-                  <Card key={booking.id}>
+                  <Card key={booking.id} className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                     <CardContent className="p-6">
                       <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        <div className="w-full md:w-32 h-24 bg-gray-200 rounded-md flex items-center justify-center">
-                          <Bike className="w-8 h-8 text-gray-400" />
+                        <div className="w-full md:w-32 h-24 bg-blue-100 border-4 border-black flex items-center justify-center">
+                          <Bike className="w-8 h-8 text-black" />
                         </div>
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold">{booking.vehicleName || 'Unknown Vehicle'}</h3>
-                            <Badge className={status.color}>
+                            <h3 className="font-black text-lg text-black">{booking.vehicleName || 'Unknown Vehicle'}</h3>
+                            <Badge className={`${status.color} border-2 border-black font-black`}>
                               <StatusIcon className="h-3 w-3 mr-1" />
                               {statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}
                             </Badge>
                           </div>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-black font-bold">
                             Booking ID: #{booking.id.toUpperCase()}
                           </p>
                           <div className="flex flex-wrap gap-4 text-sm">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4 text-gray-400" />
+                            <span className="flex items-center gap-1 text-black font-bold">
+                              <Calendar className="h-4 w-4 text-black" />
                               {format(new Date(booking.startDate), 'PP')} - {format(new Date(booking.endDate), 'PP')}
                             </span>
-                            <span className="flex items-center gap-1">
-                              <IndianRupee className="h-4 w-4 text-gray-400" />
+                            <span className="flex items-center gap-1 text-black font-bold">
+                              <IndianRupee className="h-4 w-4 text-black" />
                               {booking.totalPrice ?? 0}
                             </span>
                           </div>
@@ -172,13 +180,14 @@ export function Dashboard() {
                               variant="destructive" 
                               size="sm"
                               onClick={() => handleCancelBooking(booking.id)}
+                              className="bg-red-500 hover:bg-red-600 text-white font-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
                             >
                               <Ban className="h-4 w-4 mr-2" />
-                              Cancel
+                              CANCEL
                             </Button>
                           )}
                           {booking.status?.toLowerCase() === 'cancelled' && (
-                            <span className="text-sm text-red-600 font-medium">Cancelled</span>
+                            <span className="text-sm text-red-600 font-black bg-red-100 px-2 py-1 border-2 border-black">CANCELLED</span>
                           )}
                         </div>
                       </div>

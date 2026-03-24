@@ -142,8 +142,13 @@ export interface VehicleData {
     power: string;
     mileage: string;
     fuelCapacity: string;
+    weight?: string;
+    maxSpeed?: string;
   };
   available: boolean;
+  rating?: number; // Rating for mobile display
+  isNew?: boolean; // Flag for new models
+  year?: number; // Year of the vehicle
 }
 
 export const adminAPI = {

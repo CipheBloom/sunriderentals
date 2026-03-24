@@ -5,6 +5,7 @@ import { AdminAuthProvider } from '@/contexts/AdminAuthContext';
 import { Navbar } from '@/components/Navbar';
 import { LandingPage } from '@/pages/LandingPage';
 import { ScootyPage } from '@/pages/ScootyPage';
+import { ScootyDetailPage } from '@/pages/ScootyDetailPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { Dashboard } from '@/pages/Dashboard';
 import { ProfilePage } from '@/pages/ProfilePage';
@@ -34,6 +35,7 @@ function App() {
                         <Routes>
                           <Route path="/" element={<LandingPage />} />
                           <Route path="/scooty" element={<ScootyPage />} />
+                          <Route path="/scooty/:id" element={<ScootyDetailPage />} />
                           <Route path="/login" element={<LoginPage />} />
                           <Route path="/dashboard" element={<Dashboard />} />
                           <Route path="/profile" element={<ProfilePage />} />

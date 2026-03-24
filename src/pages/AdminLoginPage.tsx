@@ -51,30 +51,30 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-950 p-4">
-      <Card className="w-full max-w-md bg-slate-800 border-slate-700">
+    <div className="min-h-screen flex items-center justify-center bg-blue-200 p-4">
+      <Card className="w-full max-w-md bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-16 h-16 bg-blue-600 border-4 border-black flex items-center justify-center mb-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <Shield className="w-8 h-8 text-white" />
           </div>
-          <CardTitle className="text-2xl text-white">Admin Login</CardTitle>
-          <CardDescription className="text-slate-300">
+          <CardTitle className="text-2xl font-black text-black">ADMIN LOGIN</CardTitle>
+          <CardDescription className="text-black font-bold">
             Sign in to manage SunRide Rentals
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-900/50 border border-red-700 rounded-lg flex items-center gap-2 text-red-300 text-sm">
+              <div className="p-3 bg-red-100 border-4 border-black flex items-center gap-2 text-red-600 text-sm font-black">
                 <AlertCircle className="w-4 h-4" />
                 {error}
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2 text-slate-300">
+              <Label htmlFor="email" className="flex items-center gap-2 text-black font-black">
                 <Mail className="w-4 h-4" />
-                Email
+                EMAIL
               </Label>
               <Input
                 id="email"
@@ -83,14 +83,14 @@ export function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-11"
+                className="h-11 border-4 border-black font-black"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center gap-2 text-slate-300">
+              <Label htmlFor="password" className="flex items-center gap-2 text-black font-black">
                 <Lock className="w-4 h-4" />
-                Password
+                PASSWORD
               </Label>
               <div className="relative">
                 <Input
@@ -100,12 +100,12 @@ export function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-11 pr-10"
+                  className="h-11 pr-10 border-4 border-black font-black"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:text-blue-600 font-black"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -114,16 +114,16 @@ export function AdminLoginPage() {
 
             <Button
               type="submit"
-              className="w-full h-11 bg-blue-600 hover:bg-blue-700"
+              className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-black border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 transition-all uppercase"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? 'SIGNING IN...' : 'SIGN IN'}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-slate-400 hover:text-blue-400">
-              ← Back to Home
+            <a href="/" className="text-sm text-black font-black hover:text-blue-600 border-2 border-transparent hover:border-blue-300 px-2 py-1 transition-all">
+              ← BACK TO HOME
             </a>
           </div>
         </CardContent>

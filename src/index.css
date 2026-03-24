@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
+/* Tailwind CSS v4 @theme rule - may show lint warning but is valid syntax */
 @theme {
-  --color-background: hsl(222 84% 5%);
-  --color-foreground: hsl(210 40% 95%);
-  --color-card: hsl(222 84% 8%);
-  --color-card-foreground: hsl(210 40% 95%);
-  --color-popover: hsl(222 84% 8%);
-  --color-popover-foreground: hsl(210 40% 95%);
-  --color-primary: hsl(210 100% 54%);
-  --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(222 84% 12%);
-  --color-secondary-foreground: hsl(210 40% 95%);
-  --color-muted: hsl(222 84% 15%);
-  --color-muted-foreground: hsl(210 20% 65%);
-  --color-accent: hsl(210 100% 54%);
-  --color-accent-foreground: hsl(0 0% 100%);
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-  --color-border: hsl(222 84% 20%);
-  --color-input: hsl(222 84% 20%);
-  --color-ring: hsl(210 100% 54%);
-  --radius: 0.5rem;
+  /* Neobrutalism Theme - Blue and Pink */
+  --color-background: hsl(211 100% 95%); /* blue-100 */
+  --color-foreground: hsl(0 0% 0%); /* black */
+  --color-card: hsl(0 0% 100%); /* white */
+  --color-card-foreground: hsl(0 0% 0%); /* black */
+  --color-popover: hsl(0 0% 100%); /* white */
+  --color-popover-foreground: hsl(0 0% 0%); /* black */
+  --color-primary: hsl(0 0% 0%); /* black */
+  --color-primary-foreground: hsl(211 100% 95%); /* blue-100 */
+  --color-secondary: hsl(211 100% 90%); /* blue-200 */
+  --color-secondary-foreground: hsl(0 0% 0%); /* black */
+  --color-muted: hsl(211 100% 85%); /* blue-300 */
+  --color-muted-foreground: hsl(0 0% 20%); /* dark gray */
+  --color-accent: hsl(330 81% 60%); /* pink-500 */
+  --color-accent-foreground: hsl(0 0% 0%); /* black */
+  --color-destructive: hsl(0 84% 60%); /* red */
+  --color-destructive-foreground: hsl(0 0% 100%); /* white */
+  --color-border: hsl(0 0% 0%); /* black */
+  --color-input: hsl(0 0% 0%); /* black */
+  --color-ring: hsl(0 0% 0%); /* black */
+  --radius: 0rem; /* No border radius for neobrutalism */
 }
 
 @layer base {
@@ -30,6 +32,64 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Neobrutalism Utility Classes */
+@layer utilities {
+  .neobrutalism-shadow {
+    box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .neobrutalism-shadow-sm {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .neobrutalism-border {
+    border: 4px solid black;
+  }
+  
+  .neobrutalism-border-sm {
+    border: 2px solid black;
+  }
+  
+  .neobrutalism-card {
+    transition: all 0.2s ease;
+  }
+  
+  .neobrutalism-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .neobrutalism-card:active {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+}
+
+/* Neobrutalism Button Styles */
+@layer components {
+  .neobrutalism-button {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    border: 4px solid black;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .neobrutalism-button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  }
+  
+  .neobrutalism-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
   }
 }
 
