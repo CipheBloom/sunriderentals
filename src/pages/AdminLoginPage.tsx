@@ -51,28 +51,28 @@ export function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-950 p-4">
-      <Card className="w-full max-w-md bg-slate-800 border-slate-700">
+    <div className="min-h-screen flex items-center justify-center bg-blue-100 p-4">
+      <Card className="w-full max-w-md border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <CardHeader className="text-center">
-          <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-            <Shield className="w-8 h-8 text-white" />
+          <div className="mx-auto w-16 h-16 border-4 border-black bg-blue-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-full flex items-center justify-center mb-4">
+            <Shield className="w-8 h-8 text-black" />
           </div>
-          <CardTitle className="text-2xl text-white">Admin Login</CardTitle>
-          <CardDescription className="text-slate-300">
+          <CardTitle className="text-2xl font-black text-black">Admin Login</CardTitle>
+          <CardDescription className="text-black font-medium">
             Sign in to manage SunRide Rentals
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-900/50 border border-red-700 rounded-lg flex items-center gap-2 text-red-300 text-sm">
+              <div className="p-3 border-4 border-black bg-red-100 flex items-center gap-2 text-black font-bold">
                 <AlertCircle className="w-4 h-4" />
                 {error}
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2 text-slate-300">
+              <Label htmlFor="email" className="flex items-center gap-2 font-bold text-black">
                 <Mail className="w-4 h-4" />
                 Email
               </Label>
@@ -83,12 +83,12 @@ export function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-11"
+                className="h-12"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center gap-2 text-slate-300">
+              <Label htmlFor="password" className="flex items-center gap-2 font-bold text-black">
                 <Lock className="w-4 h-4" />
                 Password
               </Label>
@@ -100,12 +100,12 @@ export function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="h-11 pr-10"
+                  className="h-12 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:text-blue-600"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -114,7 +114,7 @@ export function AdminLoginPage() {
 
             <Button
               type="submit"
-              className="w-full h-11 bg-blue-600 hover:bg-blue-700"
+              className="w-full h-12 font-black"
               disabled={isLoading}
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
@@ -122,7 +122,7 @@ export function AdminLoginPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-slate-400 hover:text-blue-400">
+            <a href="/" className="text-sm font-bold text-black hover:text-blue-600">
               ← Back to Home
             </a>
           </div>

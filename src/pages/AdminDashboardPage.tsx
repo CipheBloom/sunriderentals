@@ -25,11 +25,11 @@ import { VehicleEditDialog } from '@/components/VehicleEditDialog';
 import { adminAPI, type AdminStats, type BookingData, type UserData, type VehicleData, type RiderApplicationData } from '@/lib/api';
 
 const statusConfig = {
-  confirmed: { color: 'bg-green-900/50 text-green-300', icon: CheckCircle },
-  pending: { color: 'bg-yellow-900/50 text-yellow-300', icon: Clock },
-  active: { color: 'bg-blue-900/50 text-blue-300', icon: CheckCircle },
-  completed: { color: 'bg-gray-700 text-gray-300', icon: CheckCircle },
-  cancelled: { color: 'bg-red-900/50 text-red-300', icon: Ban },
+  confirmed: { color: 'bg-green-100 text-black border-2 border-black', icon: CheckCircle },
+  pending: { color: 'bg-yellow-100 text-black border-2 border-black', icon: Clock },
+  active: { color: 'bg-blue-100 text-black border-2 border-black', icon: CheckCircle },
+  completed: { color: 'bg-gray-100 text-black border-2 border-black', icon: CheckCircle },
+  cancelled: { color: 'bg-red-100 text-black border-2 border-black', icon: Ban },
 };
 
 export function AdminDashboardPage() {
@@ -202,20 +202,20 @@ export function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-blue-100">
       {/* Header */}
-      <header className="bg-slate-800 shadow-sm border-b border-slate-700">
+      <header className="bg-white border-b-4 border-black shadow-[0_4px_0px_0px_rgba(0,0,0,1)]">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <LayoutDashboard className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 border-4 border-black bg-blue-500 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center">
+              <LayoutDashboard className="w-5 h-5 text-black" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
-              <p className="text-sm text-slate-400">SunRide Rentals Management</p>
+              <h1 className="text-xl font-black text-black">Admin Dashboard</h1>
+              <p className="text-sm font-bold text-black">SunRide Rentals Management</p>
             </div>
           </div>
-          <Button variant="outline" onClick={handleLogout} className="gap-2">
+          <Button variant="outline" onClick={handleLogout} className="gap-2 font-bold">
             <LogOut className="w-4 h-4" />
             Logout
           </Button>
@@ -225,92 +225,103 @@ export function AdminDashboardPage() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5 max-w-3xl mb-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="bookings">Bookings</TabsTrigger>
-            <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="vehicles">Vehicles</TabsTrigger>
-            <TabsTrigger value="riders">Riders</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 max-w-3xl mb-6 border-4 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <TabsTrigger value="overview" className="font-black text-black hover:bg-blue-100">Overview</TabsTrigger>
+            <TabsTrigger value="bookings" className="font-black text-black hover:bg-blue-100">Bookings</TabsTrigger>
+            <TabsTrigger value="users" className="font-black text-black hover:bg-blue-100">Users</TabsTrigger>
+            <TabsTrigger value="vehicles" className="font-black text-black hover:bg-blue-100">Vehicles</TabsTrigger>
+            <TabsTrigger value="riders" className="font-black text-black hover:bg-blue-100">Riders</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             {isLoading ? (
-              <p className="text-center py-8">Loading...</p>
+              <div className="text-center py-8">
+                <div className="w-12 h-12 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mx-auto"></div>
+                <p className="text-black font-bold mt-4">Loading...</p>
+              </div>
             ) : stats ? (
               <>
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                  <Card className="bg-slate-800 border-slate-700">
+                  <Card className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium text-slate-300">Total Bookings</CardTitle>
-                      <Calendar className="h-4 w-4 text-blue-400" />
+                      <CardTitle className="text-sm font-black text-black">Total Bookings</CardTitle>
+                      <div className="w-8 h-8 border-2 border-black bg-blue-100 flex items-center justify-center">
+                        <Calendar className="h-4 w-4 text-black" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-white">{stats.totalBookings}</div>
+                      <div className="text-3xl font-black text-black">{stats.totalBookings}</div>
                     </CardContent>
                   </Card>
-                  <Card className="bg-slate-800 border-slate-700">
+                  <Card className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium text-slate-300">Total Users</CardTitle>
-                      <Users className="h-4 w-4 text-green-400" />
+                      <CardTitle className="text-sm font-black text-black">Total Users</CardTitle>
+                      <div className="w-8 h-8 border-2 border-black bg-green-100 flex items-center justify-center">
+                        <Users className="h-4 w-4 text-black" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-white">{stats.totalUsers}</div>
+                      <div className="text-3xl font-black text-black">{stats.totalUsers}</div>
                     </CardContent>
                   </Card>
-                  <Card className="bg-slate-800 border-slate-700">
+                  <Card className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium text-slate-300">Total Revenue</CardTitle>
-                      <IndianRupee className="h-4 w-4 text-yellow-400" />
+                      <CardTitle className="text-sm font-black text-black">Total Revenue</CardTitle>
+                      <div className="w-8 h-8 border-2 border-black bg-yellow-100 flex items-center justify-center">
+                        <IndianRupee className="h-4 w-4 text-black" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-white">₹{stats.totalRevenue?.toLocaleString()}</div>
+                      <div className="text-3xl font-black text-black">₹{stats.totalRevenue?.toLocaleString()}</div>
                     </CardContent>
                   </Card>
-                  <Card className="bg-slate-800 border-slate-700">
+                  <Card className="border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium text-slate-300">Active Rentals</CardTitle>
-                      <Bike className="h-4 w-4 text-purple-400" />
+                      <CardTitle className="text-sm font-black text-black">Active Rentals</CardTitle>
+                      <div className="w-8 h-8 border-2 border-black bg-purple-100 flex items-center justify-center">
+                        <Bike className="h-4 w-4 text-black" />
+                      </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-white">{stats.activeBookings}</div>
+                      <div className="text-3xl font-black text-black">{stats.activeBookings}</div>
                     </CardContent>
                   </Card>
                 </div>
 
                 {/* Status Breakdown */}
-                <Card className="bg-slate-800 border-slate-700">
+                <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                   <CardHeader>
-                    <CardTitle className="text-white">Booking Status Breakdown</CardTitle>
+                    <CardTitle className="font-black text-black">Booking Status Breakdown</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="p-4 bg-yellow-900/50 rounded-lg">
-                        <p className="text-sm text-yellow-300">Pending</p>
-                        <p className="text-2xl font-bold text-yellow-200">{stats.pendingBookings}</p>
+                      <div className="p-4 border-4 border-black bg-yellow-100">
+                        <p className="text-sm font-bold text-black">Pending</p>
+                        <p className="text-2xl font-black text-black">{stats.pendingBookings}</p>
                       </div>
-                      <div className="p-4 bg-green-900/50 rounded-lg">
-                        <p className="text-sm text-green-300">Confirmed</p>
-                        <p className="text-2xl font-bold text-green-200">{stats.activeBookings}</p>
+                      <div className="p-4 border-4 border-black bg-green-100">
+                        <p className="text-sm font-bold text-black">Confirmed</p>
+                        <p className="text-2xl font-black text-black">{stats.activeBookings}</p>
                       </div>
-                      <div className="p-4 bg-gray-700 rounded-lg">
-                        <p className="text-sm text-gray-300">Completed</p>
-                        <p className="text-2xl font-bold text-gray-200">{stats.completedBookings}</p>
+                      <div className="p-4 border-4 border-black bg-gray-100">
+                        <p className="text-sm font-bold text-black">Completed</p>
+                        <p className="text-2xl font-black text-black">{stats.completedBookings}</p>
                       </div>
-                      <div className="p-4 bg-red-900/50 rounded-lg">
-                        <p className="text-sm text-red-300">Cancelled</p>
-                        <p className="text-2xl font-bold text-red-200">{stats.cancelledBookings}</p>
+                      <div className="p-4 border-4 border-black bg-red-100">
+                        <p className="text-sm font-bold text-black">Cancelled</p>
+                        <p className="text-2xl font-black text-black">{stats.cancelledBookings}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Recent Bookings */}
-                <Card className="bg-slate-800 border-slate-700">
+                <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-white">Recent Bookings</CardTitle>
-                    <Button variant="outline" size="sm" onClick={() => setActiveTab('bookings')}>
+                    <CardTitle className="font-black text-black">Recent Bookings</CardTitle>
+                    <Button variant="outline" size="sm" onClick={() => setActiveTab('bookings')} className="font-bold">
                       View All
                     </Button>
                   </CardHeader>
@@ -320,11 +331,11 @@ export function AdminDashboardPage() {
                         const statusKey = booking.status || 'pending';
                         const status = statusConfig[statusKey as keyof typeof statusConfig] || statusConfig.pending;
                         return (
-                          <div key={booking.id} className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
+                          <div key={booking.id} className="flex items-center justify-between p-3 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                             <div>
-                              <p className="font-medium text-white">{booking.vehicleName || 'Unknown'}</p>
-                              <p className="text-sm text-slate-400">{booking.userName || booking.userId}</p>
-                              <p className="text-sm text-slate-400">
+                              <p className="font-bold text-black">{booking.vehicleName || 'Unknown'}</p>
+                              <p className="text-sm font-medium text-black">{booking.userName || booking.userId}</p>
+                              <p className="text-sm font-medium text-black">
                                 {new Date(booking.startDate).toLocaleDateString()} - ₹{booking.totalPrice}
                               </p>
                             </div>
@@ -343,22 +354,25 @@ export function AdminDashboardPage() {
 
           {/* Bookings Tab */}
           <TabsContent value="bookings">
-            <Card className="bg-slate-800 border-slate-700">
+            <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-white">All Bookings</CardTitle>
+                <CardTitle className="font-black text-black">All Bookings</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-slate-400" />
+                  <Search className="w-4 h-4 text-black" />
                   <Input
                     placeholder="Search bookings..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64 bg-slate-700 border-slate-600 text-white"
+                    className="w-64"
                   />
                 </div>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
-                  <p className="text-center py-8">Loading...</p>
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mx-auto"></div>
+                    <p className="text-black font-bold mt-4">Loading...</p>
+                  </div>
                 ) : (
                   <div className="space-y-3">
                     {filteredBookings.map((booking) => {
@@ -367,26 +381,26 @@ export function AdminDashboardPage() {
                       const StatusIcon = status.icon;
                       
                       return (
-                        <div key={booking.id} className="p-4 border border-slate-600 rounded-lg">
+                        <div key={booking.id} className="p-4 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-semibold text-white">{booking.vehicleName || 'Unknown Vehicle'}</h3>
+                                <h3 className="font-black text-black">{booking.vehicleName || 'Unknown Vehicle'}</h3>
                                 <Badge className={status.color}>
                                   <StatusIcon className="w-3 h-3 mr-1" />
                                   {booking.status}
                                 </Badge>
                               </div>
-                              <p className="text-sm text-slate-400">Booking ID: {booking.id}</p>
-                              <p className="text-sm text-slate-400">
+                              <p className="text-sm font-medium text-black">Booking ID: {booking.id}</p>
+                              <p className="text-sm font-medium text-black">
                                 Dates: {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
                               </p>
-                              <p className="text-sm text-slate-400">Price: ₹{booking.totalPrice}</p>
-                              <div className="mt-2 p-2 bg-blue-900/30 rounded border border-blue-700">
-                                <p className="text-sm font-medium text-blue-300">Customer Details</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Name:</span> {booking.userName || 'Unknown'}</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Email:</span> {booking.userEmail || 'Unknown'}</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Phone:</span> {booking.userPhone || 'Not provided'}</p>
+                              <p className="text-sm font-medium text-black">Price: ₹{booking.totalPrice}</p>
+                              <div className="mt-2 p-2 border-2 border-black bg-blue-100">
+                                <p className="text-sm font-black text-black">Customer Details</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Name:</span> {booking.userName || 'Unknown'}</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Email:</span> {booking.userEmail || 'Unknown'}</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Phone:</span> {booking.userPhone || 'Not provided'}</p>
                               </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
@@ -394,7 +408,7 @@ export function AdminDashboardPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="text-green-600"
+                                  className="font-black"
                                   onClick={() => handleUpdateBookingStatus(booking.id, 'confirmed')}
                                 >
                                   <Check className="w-4 h-4 mr-1" />
@@ -405,7 +419,7 @@ export function AdminDashboardPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="text-blue-600"
+                                  className="font-black"
                                   onClick={() => handleUpdateBookingStatus(booking.id, 'completed')}
                                 >
                                   <CheckCircle className="w-4 h-4 mr-1" />
@@ -415,8 +429,8 @@ export function AdminDashboardPage() {
                               {booking.status !== 'cancelled' && (
                                 <Button
                                   size="sm"
-                                  variant="outline"
-                                  className="text-red-600"
+                                  variant="destructive"
+                                  className="font-black"
                                   onClick={() => handleUpdateBookingStatus(booking.id, 'cancelled')}
                                 >
                                   <Ban className="w-4 h-4 mr-1" />
@@ -436,37 +450,40 @@ export function AdminDashboardPage() {
 
           {/* Users Tab */}
           <TabsContent value="users">
-            <Card className="bg-slate-800 border-slate-700">
+            <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-white">All Users</CardTitle>
+                <CardTitle className="font-black text-black">All Users</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-slate-400" />
+                  <Search className="w-4 h-4 text-black" />
                   <Input
                     placeholder="Search users..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64 bg-slate-700 border-slate-600 text-white"
+                    className="w-64"
                   />
                 </div>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
-                  <p className="text-center py-8">Loading...</p>
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mx-auto"></div>
+                    <p className="text-black font-bold mt-4">Loading...</p>
+                  </div>
                 ) : (
                   <div className="grid gap-3">
                     {filteredUsers.map((user) => (
-                      <div key={user.id} className="p-4 border border-slate-600 rounded-lg">
+                      <div key={user.id} className="p-4 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         <div className="flex items-center justify-between">
                           <div>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-semibold text-white">{user.name}</h3>
+                              <h3 className="font-black text-black">{user.name}</h3>
                               {user.isRider && (
-                                <Badge className="bg-green-900/50 text-green-300">Rider</Badge>
+                                <Badge className="bg-green-100 text-black border-2 border-black">Rider</Badge>
                               )}
                             </div>
-                            <p className="text-sm text-slate-400">{user.email}</p>
-                            <p className="text-sm text-slate-400">Phone: {user.phone || 'Not provided'}</p>
-                            <p className="text-sm text-slate-400">
+                            <p className="text-sm font-medium text-black">{user.email}</p>
+                            <p className="text-sm font-medium text-black">Phone: {user.phone || 'Not provided'}</p>
+                            <p className="text-sm font-medium text-black">
                               Joined: {new Date(user.createdAt || Date.now()).toLocaleDateString()}
                             </p>
                           </div>
@@ -474,6 +491,7 @@ export function AdminDashboardPage() {
                             <Button
                               size="sm"
                               variant={user.isRider ? 'destructive' : 'default'}
+                              className="font-black"
                               onClick={() => {
                                 adminAPI.updateUserRiderStatus(user.id, !user.isRider).then(() => {
                                   loadData();
@@ -494,36 +512,40 @@ export function AdminDashboardPage() {
 
           {/* Vehicles Tab */}
           <TabsContent value="vehicles">
-            <Card className="bg-slate-800 border-slate-700">
+            <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-white">Vehicle Management</CardTitle>
-                <Button onClick={handleAddNewVehicle} className="gap-2">
+                <CardTitle className="font-black text-black">Vehicle Management</CardTitle>
+                <Button onClick={handleAddNewVehicle} className="gap-2 font-black">
                   <Plus className="w-4 h-4" />
                   Add New Vehicle
                 </Button>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
-                  <p className="text-center py-8">Loading...</p>
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mx-auto"></div>
+                    <p className="text-black font-bold mt-4">Loading...</p>
+                  </div>
                 ) : (
                   <div className="grid gap-3 md:grid-cols-2">
                     {vehicles.map((vehicle) => (
-                      <div key={vehicle.id} className="p-4 border border-slate-600 rounded-lg">
+                      <div key={vehicle.id} className="p-4 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <h3 className="font-semibold text-white">{vehicle.name}</h3>
-                              <Badge className={vehicle.available ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}>
+                              <h3 className="font-black text-black">{vehicle.name}</h3>
+                              <Badge className={vehicle.available ? 'bg-green-100 text-black border-2 border-black' : 'bg-red-100 text-black border-2 border-black'}>
                                 {vehicle.available ? 'Available' : 'Not Available'}
                               </Badge>
                             </div>
-                            <p className="text-sm text-slate-400">₹{vehicle.pricePerDay}/day</p>
-                            <p className="text-sm text-slate-400 mt-1">{vehicle.description?.slice(0, 100)}...</p>
+                            <p className="text-sm font-medium text-black">₹{vehicle.pricePerDay}/day</p>
+                            <p className="text-sm font-medium text-black mt-1">{vehicle.description?.slice(0, 100)}...</p>
                           </div>
                           <div className="flex flex-col gap-2">
                             <Button
                               size="sm"
                               variant="outline"
+                              className="font-black"
                               onClick={() => handleEditVehicle(vehicle)}
                             >
                               Edit
@@ -531,6 +553,7 @@ export function AdminDashboardPage() {
                             <Button
                               size="sm"
                               variant={vehicle.available ? 'destructive' : 'default'}
+                              className="font-black"
                               onClick={() => handleToggleVehicleAvailability(vehicle.id, vehicle.available)}
                             >
                               {vehicle.available ? 'Unavailable' : 'Available'}
@@ -538,6 +561,7 @@ export function AdminDashboardPage() {
                             <Button
                               size="sm"
                               variant="destructive"
+                              className="font-black"
                               onClick={() => handleDeleteVehicle(vehicle.id)}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -554,22 +578,25 @@ export function AdminDashboardPage() {
 
           {/* Rider Applications Tab */}
           <TabsContent value="riders">
-            <Card className="bg-slate-800 border-slate-700">
+            <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-white">Rider Applications</CardTitle>
+                <CardTitle className="font-black text-black">Rider Applications</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-slate-400" />
+                  <Search className="w-4 h-4 text-black" />
                   <Input
                     placeholder="Search applications..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-64 bg-slate-700 border-slate-600 text-white"
+                    className="w-64"
                   />
                 </div>
               </CardHeader>
               <CardContent>
                 {isLoading ? (
-                  <p className="text-center py-8">Loading...</p>
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mx-auto"></div>
+                    <p className="text-black font-bold mt-4">Loading...</p>
+                  </div>
                 ) : (
                   <div className="space-y-3">
                     {riderApplications
@@ -579,45 +606,45 @@ export function AdminDashboardPage() {
                         app.city?.toLowerCase().includes(searchQuery.toLowerCase())
                       )
                       .map((app) => (
-                        <div key={app.id} className="p-4 border border-slate-600 rounded-lg">
+                        <div key={app.id} className="p-4 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <h3 className="font-semibold text-white">{app.fullName}</h3>
+                                <h3 className="font-black text-black">{app.fullName}</h3>
                                 <Badge className={
-                                  app.status === 'approved' ? 'bg-green-900/50 text-green-300' :
-                                  app.status === 'rejected' ? 'bg-red-900/50 text-red-300' :
-                                  'bg-yellow-900/50 text-yellow-300'
+                                  app.status === 'approved' ? 'bg-green-100 text-black border-2 border-black' :
+                                  app.status === 'rejected' ? 'bg-red-100 text-black border-2 border-black' :
+                                  'bg-yellow-100 text-black border-2 border-black'
                                 }>
                                   {app.status || 'pending'}
                                 </Badge>
                               </div>
-                              <p className="text-sm text-slate-400">Application ID: {app.id}</p>
-                              <p className="text-sm text-slate-400">Age: {app.age} | City: {app.city}</p>
-                              <p className="text-sm text-slate-400">Vehicle: {app.vehicleType} | License: {app.hasLicense ? 'Yes' : 'No'}</p>
+                              <p className="text-sm font-medium text-black">Application ID: {app.id}</p>
+                              <p className="text-sm font-medium text-black">Age: {app.age} | City: {app.city}</p>
+                              <p className="text-sm font-medium text-black">Vehicle: {app.vehicleType} | License: {app.hasLicense ? 'Yes' : 'No'}</p>
                               {app.licenseNumber && (
-                                <p className="text-sm text-slate-400">License #: {app.licenseNumber}</p>
+                                <p className="text-sm font-medium text-black">License #: {app.licenseNumber}</p>
                               )}
-                              <p className="text-sm text-slate-400">Experience: {app.experience || 'Not specified'}</p>
-                              <p className="text-sm text-slate-400">Work Area: {app.preferredWorkArea || 'Not specified'}</p>
-                              <p className="text-sm text-slate-400">Availability: {app.availability || 'Not specified'}</p>
+                              <p className="text-sm font-medium text-black">Experience: {app.experience || 'Not specified'}</p>
+                              <p className="text-sm font-medium text-black">Work Area: {app.preferredWorkArea || 'Not specified'}</p>
+                              <p className="text-sm font-medium text-black">Availability: {app.availability || 'Not specified'}</p>
                               {app.additionalInfo && (
-                                <p className="text-sm text-slate-400 mt-2">Additional Info: {app.additionalInfo}</p>
+                                <p className="text-sm font-medium text-black mt-2">Additional Info: {app.additionalInfo}</p>
                               )}
-                              <div className="mt-2 p-2 bg-blue-900/30 rounded border border-blue-700">
-                                <p className="text-sm font-medium text-blue-300">Applicant Contact</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Email:</span> {app.userEmail || 'Unknown'}</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Phone:</span> {app.userPhone || 'Not provided'}</p>
+                              <div className="mt-2 p-2 border-2 border-black bg-blue-100">
+                                <p className="text-sm font-black text-black">Applicant Contact</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Email:</span> {app.userEmail || 'Unknown'}</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Phone:</span> {app.userPhone || 'Not provided'}</p>
                               </div>
-                              <div className="mt-2 p-2 bg-yellow-900/30 rounded border border-yellow-700">
-                                <p className="text-sm font-medium text-yellow-300">Identification Documents</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">Aadhar:</span> {app.aadharNumber || 'Not provided'}</p>
-                                <p className="text-sm text-slate-300"><span className="font-medium">PAN:</span> {app.panNumber || 'Not provided'}</p>
+                              <div className="mt-2 p-2 border-2 border-black bg-yellow-100">
+                                <p className="text-sm font-black text-black">Identification Documents</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">Aadhar:</span> {app.aadharNumber || 'Not provided'}</p>
+                                <p className="text-sm font-medium text-black"><span className="font-bold">PAN:</span> {app.panNumber || 'Not provided'}</p>
                               </div>
                               {app.adminNotes && (
-                                <div className="mt-2 p-2 bg-gray-700 rounded">
-                                  <p className="text-sm font-medium text-white">Admin Notes:</p>
-                                  <p className="text-sm text-slate-300">{app.adminNotes}</p>
+                                <div className="mt-2 p-2 border-2 border-black bg-gray-100">
+                                  <p className="text-sm font-black text-black">Admin Notes:</p>
+                                  <p className="text-sm font-medium text-black">{app.adminNotes}</p>
                                 </div>
                               )}
                             </div>
@@ -626,7 +653,7 @@ export function AdminDashboardPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="text-green-600"
+                                  className="font-black"
                                   onClick={() => {
                                     const notes = prompt('Add admin notes (optional):') || '';
                                     handleUpdateRiderApplicationStatus(app.id!, 'approved', notes);
@@ -640,7 +667,7 @@ export function AdminDashboardPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="text-red-600"
+                                  className="font-black"
                                   onClick={() => {
                                     const notes = prompt('Add rejection reason (optional):') || '';
                                     handleUpdateRiderApplicationStatus(app.id!, 'rejected', notes);
@@ -653,6 +680,7 @@ export function AdminDashboardPage() {
                               <Button
                                 size="sm"
                                 variant="destructive"
+                                className="font-black"
                                 onClick={() => handleDeleteRiderApplication(app.id!)}
                               >
                                 <Trash2 className="w-4 h-4" />
@@ -662,7 +690,9 @@ export function AdminDashboardPage() {
                         </div>
                       ))}
                     {riderApplications.length === 0 && (
-                      <p className="text-center text-slate-400 py-8">No rider applications yet</p>
+                      <div className="text-center py-8 border-4 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <p className="text-black font-bold">No rider applications yet</p>
+                      </div>
                     )}
                   </div>
                 )}

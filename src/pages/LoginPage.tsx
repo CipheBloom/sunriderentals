@@ -11,71 +11,79 @@ export function LoginPage() {
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center px-4 md:px-6">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-            <Bike className="h-6 w-6 text-blue-500" />
+    <div className="min-h-screen bg-blue-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 border-4 border-black bg-blue-500 text-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-4">
+            <Bike className="w-5 h-5" />
+            <span>SunRide Rentals</span>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight">Welcome to SunRide</h1>
-          <p className="text-sm text-muted-foreground">
-            Sign in with your Google account to book bikes and manage your rentals
-          </p>
+          <h1 className="text-3xl font-black text-black">Welcome Back</h1>
+          <p className="text-black font-medium mt-2">Sign in to continue your journey</p>
         </div>
 
-        <div className="grid gap-4">
-          <div className="flex justify-center py-4">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                if (credentialResponse.credential) {
-                  login({ credential: credentialResponse.credential });
-                }
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-              useOneTap
-            />
-          </div>
+        {/* Login Card */}
+        <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="p-6">
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  if (credentialResponse.credential) {
+                    login({ credential: credentialResponse.credential });
+                  }
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+                useOneTap
+                theme="outline"
+                size="large"
+                width="300"
+              />
+            </div>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Why sign in?
-              </span>
-            </div>
-          </div>
-
-          <div className="grid gap-4 text-sm">
-            <div className="flex items-center gap-3">
-              <Shield className="h-4 w-4 text-blue-500" />
-              <span>Secure booking management</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="h-4 w-4 text-blue-500" />
-              <span>Track your rental history</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <MapPin className="h-4 w-4 text-blue-500" />
-              <span>Easy pickup and drop-off</span>
+            <div className="mt-6 text-center">
+              <p className="text-black font-medium text-sm">
+                New here?{' '}
+                <span className="text-blue-600 font-bold">
+                  Sign up automatically with Google
+                </span>
+              </p>
             </div>
           </div>
         </div>
 
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          By clicking continue, you agree to our{' '}
-          <a href="#" className="underline underline-offset-4 hover:text-primary">
-            Terms of Service
-          </a>{' '}
-          and{' '}
-          <a href="#" className="underline underline-offset-4 hover:text-primary">
-            Privacy Policy
-          </a>
-          .
-        </p>
+        {/* Features */}
+        <div className="mt-8 space-y-3">
+          <div className="flex items-center gap-3 p-4 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="w-10 h-10 border-2 border-black bg-blue-100 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-black" />
+            </div>
+            <div>
+              <p className="font-bold text-black">Secure Login</p>
+              <p className="text-sm text-black font-medium">Your data is protected</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-4 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="w-10 h-10 border-2 border-black bg-blue-100 flex items-center justify-center">
+              <Clock className="w-5 h-5 text-black" />
+            </div>
+            <div>
+              <p className="font-bold text-black">Quick Access</p>
+              <p className="text-sm text-black font-medium">Book scooters in seconds</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-4 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="w-10 h-10 border-2 border-black bg-blue-100 flex items-center justify-center">
+              <MapPin className="w-5 h-5 text-black" />
+            </div>
+            <div>
+              <p className="font-bold text-black">Easy Pickup</p>
+              <p className="text-sm text-black font-medium">Find scooters near you</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

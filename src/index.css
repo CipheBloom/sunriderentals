@@ -1,26 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: hsl(222 84% 5%);
-  --color-foreground: hsl(210 40% 95%);
-  --color-card: hsl(222 84% 8%);
-  --color-card-foreground: hsl(210 40% 95%);
-  --color-popover: hsl(222 84% 8%);
-  --color-popover-foreground: hsl(210 40% 95%);
-  --color-primary: hsl(210 100% 54%);
-  --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(222 84% 12%);
-  --color-secondary-foreground: hsl(210 40% 95%);
-  --color-muted: hsl(222 84% 15%);
-  --color-muted-foreground: hsl(210 20% 65%);
-  --color-accent: hsl(210 100% 54%);
-  --color-accent-foreground: hsl(0 0% 100%);
-  --color-destructive: hsl(0 84.2% 60.2%);
-  --color-destructive-foreground: hsl(0 0% 98%);
-  --color-border: hsl(222 84% 20%);
-  --color-input: hsl(222 84% 20%);
-  --color-ring: hsl(210 100% 54%);
-  --radius: 0.5rem;
+  /* Neobrutalism Blue Theme */
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-card: #ffffff;
+  --color-card-foreground: #000000;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #000000;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #000000;
+  --color-secondary: #dbeafe;
+  --color-secondary-foreground: #000000;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #000000;
+  --color-accent: #60a5fa;
+  --color-accent-foreground: #000000;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #000000;
+  --color-input: #000000;
+  --color-ring: #3b82f6;
+  --radius: 0;
 }
 
 @layer base {
@@ -30,7 +31,114 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-weight: 500;
   }
+}
+
+/* Global Smooth Animations */
+* {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth scrolling for the entire website */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced hover animations */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
+}
+
+/* Button press animation */
+.btn-press {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-press:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered animation for lists */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Bounce animation for buttons */
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-8px);
+  }
+  70% {
+    transform: translateY(-4px);
+  }
+  90% {
+    transform: translateY(-2px);
+  }
+}
+
+.bounce {
+  animation: bounce 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Calendar table layout fix */

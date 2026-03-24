@@ -91,23 +91,23 @@ export function RiderApplicationPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 py-12 px-4">
-        <div className="max-w-2xl mx-auto">
-          <Card className="bg-slate-800 border-slate-700">
+      <div className="min-h-screen bg-blue-100 py-12 px-4 flex items-center justify-center">
+        <div className="max-w-2xl mx-auto w-full">
+          <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <CardContent className="p-8 text-center">
-              <div className="w-20 h-20 bg-green-900/50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-10 h-10 text-green-400" />
+              <div className="w-20 h-20 border-4 border-black bg-green-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-10 h-10 text-black" />
               </div>
-              <h2 className="text-2xl font-bold mb-2 text-white">Application Submitted!</h2>
-              <p className="text-slate-300 mb-6">
+              <h2 className="text-2xl font-black mb-2 text-black">Application Submitted!</h2>
+              <p className="text-black font-medium mb-6">
                 Thank you for applying to become a delivery rider. Our team will review your application and contact you shortly.
               </p>
               <div className="flex gap-4 justify-center">
-                <Button variant="outline" onClick={() => navigate('/')}>
+                <Button variant="outline" onClick={() => navigate('/')} className="font-bold">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
-                <Button onClick={() => navigate('/profile')}>
+                <Button onClick={() => navigate('/profile')} className="font-bold">
                   View Profile
                 </Button>
               </div>
@@ -119,49 +119,53 @@ export function RiderApplicationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 py-8 px-4">
+    <div className="min-h-screen bg-blue-100 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Button variant="ghost" onClick={() => navigate('/')} className="mb-4">
+          <Button variant="ghost" onClick={() => navigate('/')} className="mb-4 font-bold">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
-          <h1 className="text-3xl font-bold mb-2 text-white">Become a Delivery Rider</h1>
-          <p className="text-slate-300">
+          <h1 className="text-3xl font-black mb-2 text-black">Become a Delivery Rider</h1>
+          <p className="text-black font-medium">
             Join our network of delivery partners. Fill out the form below to apply.
           </p>
         </div>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-white">
-              <Bike className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 font-black text-black">
+              <div className="w-8 h-8 border-2 border-black bg-blue-100 flex items-center justify-center">
+                <Bike className="w-4 h-4 text-black" />
+              </div>
               Rider Application Form
             </CardTitle>
-            <CardDescription className="text-slate-300">
+            <CardDescription className="text-black font-medium">
               Please provide accurate information to help us process your application faster.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg flex items-center gap-2 text-red-300">
+                <div className="p-4 border-4 border-black bg-red-100 flex items-center gap-2 text-black font-bold">
                   <AlertCircle className="w-5 h-5" />
                   {error}
                 </div>
               )}
 
               {/* Personal Information */}
-              <div className="border border-slate-600 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold flex items-center gap-2 text-white">
-                  <User className="w-4 h-4" />
+              <div className="border-4 border-black p-4 space-y-4">
+                <h3 className="font-black flex items-center gap-2 text-black">
+                  <div className="w-6 h-6 border-2 border-black bg-blue-100 flex items-center justify-center">
+                    <User className="w-3 h-3 text-black" />
+                  </div>
                   Personal Information
                 </h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-slate-300">Full Name *</Label>
+                    <Label htmlFor="fullName" className="font-bold text-black">Full Name *</Label>
                     <Input
                       id="fullName"
                       value={formData.fullName}
@@ -171,7 +175,7 @@ export function RiderApplicationPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="age" className="text-slate-300">Age *</Label>
+                    <Label htmlFor="age" className="font-bold text-black">Age *</Label>
                     <Input
                       id="age"
                       type="number"
@@ -186,7 +190,7 @@ export function RiderApplicationPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="flex items-center gap-2 text-slate-300">
+                  <Label htmlFor="phone" className="flex items-center gap-2 font-bold text-black">
                     <Phone className="w-4 h-4" />
                     Phone Number *
                   </Label>
@@ -202,7 +206,7 @@ export function RiderApplicationPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="aadharNumber" className="flex items-center gap-2 text-slate-300">
+                    <Label htmlFor="aadharNumber" className="flex items-center gap-2 font-bold text-black">
                       <IdCard className="w-4 h-4" />
                       Aadhar Card Number *
                     </Label>
@@ -217,7 +221,7 @@ export function RiderApplicationPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="panNumber" className="flex items-center gap-2 text-slate-300">
+                    <Label htmlFor="panNumber" className="flex items-center gap-2 font-bold text-black">
                       <CreditCard className="w-4 h-4" />
                       PAN Card Number *
                     </Label>
@@ -234,7 +238,7 @@ export function RiderApplicationPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="city" className="flex items-center gap-2 text-slate-300">
+                  <Label htmlFor="city" className="flex items-center gap-2 font-bold text-black">
                     <MapPin className="w-4 h-4" />
                     City/Location *
                   </Label>
@@ -249,14 +253,16 @@ export function RiderApplicationPage() {
               </div>
 
               {/* Vehicle Information */}
-              <div className="border border-slate-600 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold flex items-center gap-2 text-white">
-                  <Bike className="w-4 h-4" />
+              <div className="border-4 border-black p-4 space-y-4">
+                <h3 className="font-black flex items-center gap-2 text-black">
+                  <div className="w-6 h-6 border-2 border-black bg-blue-100 flex items-center justify-center">
+                    <Bike className="w-3 h-3 text-black" />
+                  </div>
                   Vehicle Information
                 </h3>
                 
                 <div className="space-y-2">
-                  <Label className="text-slate-300">Vehicle Type *</Label>
+                  <Label className="font-bold text-black">Vehicle Type *</Label>
                   <div className="flex flex-wrap gap-3">
                     {['scooter', 'motorcycle', 'bicycle'].map((type) => (
                       <label key={type} className="flex items-center gap-2 cursor-pointer">
@@ -268,7 +274,7 @@ export function RiderApplicationPage() {
                           onChange={(e) => handleChange('vehicleType', e.target.value)}
                           className="w-4 h-4"
                         />
-                        <span className="capitalize text-slate-200">{type}</span>
+                        <span className="capitalize font-bold text-black">{type}</span>
                       </label>
                     ))}
                   </div>
@@ -280,14 +286,14 @@ export function RiderApplicationPage() {
                     checked={formData.hasLicense}
                     onCheckedChange={(checked: boolean) => handleChange('hasLicense', checked === true)}
                   />
-                  <Label htmlFor="hasLicense" className="cursor-pointer text-slate-300">
+                  <Label htmlFor="hasLicense" className="cursor-pointer font-bold text-black">
                     I have a valid driver's license
                   </Label>
                 </div>
 
                 {formData.hasLicense && (
                   <div className="space-y-2">
-                    <Label htmlFor="licenseNumber" className="text-slate-300">License Number</Label>
+                    <Label htmlFor="licenseNumber" className="font-bold text-black">License Number</Label>
                     <Input
                       id="licenseNumber"
                       value={formData.licenseNumber}
@@ -299,14 +305,16 @@ export function RiderApplicationPage() {
               </div>
 
               {/* Work Preferences */}
-              <div className="border border-slate-600 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold flex items-center gap-2 text-white">
-                  <Clock className="w-4 h-4" />
+              <div className="border-4 border-black p-4 space-y-4">
+                <h3 className="font-black flex items-center gap-2 text-black">
+                  <div className="w-6 h-6 border-2 border-black bg-blue-100 flex items-center justify-center">
+                    <Clock className="w-3 h-3 text-black" />
+                  </div>
                   Work Preferences
                 </h3>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="experience" className="text-slate-300">Experience (Years)</Label>
+                  <Label htmlFor="experience" className="font-bold text-black">Experience (Years)</Label>
                   <Input
                     id="experience"
                     value={formData.experience}
@@ -316,7 +324,7 @@ export function RiderApplicationPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="preferredWorkArea" className="text-slate-300">Preferred Work Area</Label>
+                  <Label htmlFor="preferredWorkArea" className="font-bold text-black">Preferred Work Area</Label>
                   <Input
                     id="preferredWorkArea"
                     value={formData.preferredWorkArea}
@@ -326,12 +334,12 @@ export function RiderApplicationPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="availability" className="text-slate-300">Availability *</Label>
+                  <Label htmlFor="availability" className="font-bold text-black">Availability *</Label>
                   <select
                     id="availability"
                     value={formData.availability}
                     onChange={(e) => handleChange('availability', e.target.value)}
-                    className="w-full h-10 px-3 rounded-md border border-slate-600 bg-slate-700 text-white"
+                    className="w-full h-12 px-3 border-4 border-black bg-white text-black font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none"
                     required
                   >
                     <option value="full-time">Full Time</option>
@@ -343,35 +351,38 @@ export function RiderApplicationPage() {
               </div>
 
               {/* Additional Information */}
-              <div className="border border-slate-600 rounded-lg p-4 space-y-4">
-                <h3 className="font-semibold flex items-center gap-2 text-white">
-                  <FileText className="w-4 h-4" />
+              <div className="border-4 border-black p-4 space-y-4">
+                <h3 className="font-black flex items-center gap-2 text-black">
+                  <div className="w-6 h-6 border-2 border-black bg-blue-100 flex items-center justify-center">
+                    <FileText className="w-3 h-3 text-black" />
+                  </div>
                   Additional Information
                 </h3>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="additionalInfo" className="text-slate-300">Tell us about yourself</Label>
+                  <Label htmlFor="additionalInfo" className="font-bold text-black">Tell us about yourself</Label>
                   <Textarea
                     id="additionalInfo"
                     value={formData.additionalInfo}
                     onChange={(e) => handleChange('additionalInfo', e.target.value)}
                     placeholder="Any additional information you'd like to share..."
                     rows={4}
+                    className="border-4 border-black bg-white text-black font-medium shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none"
                   />
                 </div>
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full h-12 bg-blue-600 hover:bg-blue-700"
+                className="w-full h-12 font-black"
                 disabled={isSubmitting || !isAuthenticated}
               >
                 {isSubmitting ? 'Submitting...' : isAuthenticated ? 'Submit Application' : 'Please Login First'}
               </Button>
 
               {!isAuthenticated && (
-                <p className="text-center text-sm text-slate-400">
-                  Please <button type="button" onClick={() => navigate('/login')} className="text-blue-400 hover:underline">login</button> to submit your application
+                <p className="text-center text-sm font-bold text-black">
+                  Please <button type="button" onClick={() => navigate('/login')} className="text-blue-600 underline">login</button> to submit your application
                 </p>
               )}
             </form>
