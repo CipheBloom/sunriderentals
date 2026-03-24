@@ -26,10 +26,7 @@ function md5(str: string): string {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('sunride_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState<User | null>(null);
 
   const login = useCallback(async (credentialResponse: { credential: string }) => {
     try {
@@ -57,6 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         picture: googlePicture || gravatarUrl,
       };
       
+      // Store Google user data in localStorage for persistence
+      localStorage.setItem('sunride_google_user', JSON.stringify(userData));
+      
       // Sync to MongoDB and get any additional user data
       try {
         let existingUser;
@@ -82,8 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await userAPI.create(newUser);
           console.log('✅ New user created in MongoDB:', newUser);
           setUser(newUser);
-          localStorage.setItem('sunride_user', JSON.stringify(newUser));
-          console.log('🔄 User data stored in localStorage:', newUser);
+          console.log('🔄 User data stored in MongoDB:', newUser);
         } else {
           // Merge MongoDB data (phone, address, isRider) with Google auth data
           const mergedUser: User = {
@@ -94,16 +93,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             riderApprovedAt: existingUser.riderApprovedAt
           };
           setUser(mergedUser);
-          localStorage.setItem('sunride_user', JSON.stringify(mergedUser));
           console.log('✅ User data merged from MongoDB:', mergedUser);
-          console.log('🔄 User data stored in localStorage:', mergedUser);
+          console.log('🔄 User data stored in MongoDB:', mergedUser);
         }
       } catch (error) {
         console.error('❌ Error syncing user to MongoDB:', error);
         // Fallback to local only
         setUser(userData);
-        localStorage.setItem('sunride_user', JSON.stringify(userData));
-        console.log('🔄 User data stored in localStorage:', userData);
+        console.log('🔄 User data stored locally:', userData);
       }
     } catch (error) {
       console.error('Error decoding JWT:', error);
@@ -175,9 +172,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user, syncUser]);
 
+  // Initial data fetch on app load
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        // Try to get user data from Google OAuth first
+        const savedGoogleUser = localStorage.getItem('sunride_google_user');
+        if (savedGoogleUser) {
+          const googleUserData = JSON.parse(savedGoogleUser);
+          console.log('🔄 Found Google user data, syncing to MongoDB...');
+          // Create user in MongoDB from Google data
+          const newUser = {
+            id: googleUserData.id,
+            name: googleUserData.name,
+            email: googleUserData.email,
+            picture: googleUserData.picture,
+            phone: '',
+            address: '',
+            isRider: false,
+            createdAt: new Date().toISOString()
+          };
+          await userAPI.create(newUser);
+          console.log('✅ New user created in MongoDB:', newUser);
+          setUser(newUser);
+          console.log('🔄 User data stored in MongoDB:', newUser);
+        }
+      } catch (error) {
+        console.error('❌ Error initializing auth:', error);
+      }
+    };
+    
+    initializeAuth();
+  }, []);
+
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem('sunride_user');
+    localStorage.removeItem('sunride_google_user');
   }, []);
 
   const getAvatarUrl = useCallback(() => {
