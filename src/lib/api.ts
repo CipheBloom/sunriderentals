@@ -147,6 +147,7 @@ export interface AdminStats {
   activeBookings: number;
   completedBookings: number;
   cancelledBookings: number;
+  pendingBookings: number;
   pendingRiderApplications: number;
   approvedRiderApplications: number;
   rejectedRiderApplications: number;
