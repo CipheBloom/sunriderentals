@@ -57,23 +57,23 @@ exports.handler = async (event, context) => {
   try {
     const dbConnected = await connectDB();
     
-    // Extract userId from path - try multiple methods
+    // Extract userId from query string (Netlify)
     let userId = null;
     
-    // Method 1: From path parameters (Netlify)
-    if (event.pathParameters && event.pathParameters.userId) {
+    // Method 1: From query string
+    if (event.queryStringParameters && event.queryStringParameters.userId) {
+      userId = event.queryStringParameters.userId;
+    }
+    
+    // Method 2: From path parameters (fallback)
+    if (!userId && event.pathParameters && event.pathParameters.userId) {
       userId = event.pathParameters.userId;
     }
     
-    // Method 2: From path (parse manually)
+    // Method 3: From path (parse manually)
     if (!userId && event.path) {
       const pathParts = event.path.split('/');
       userId = pathParts[pathParts.length - 1];
-    }
-    
-    // Method 3: From query string
-    if (!userId && event.queryStringParameters && event.queryStringParameters.userId) {
-      userId = event.queryStringParameters.userId;
     }
     
     console.log('🔍 User ID extracted:', userId);

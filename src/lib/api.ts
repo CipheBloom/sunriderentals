@@ -115,7 +115,7 @@ export const bookingAPI = {
   getAll: (userID: string) => fetchAPI(`/bookings/${userID}`),
 
   // GET user bookings
-  getByUser: (userId: string) => fetchAPI(`/bookings/${userId}`),
+  getByUser: (userId: string) => fetchAPI(`/bookings?userId=${userId}`),
 
   // POST new booking
   create: (data: BookingData) =>
