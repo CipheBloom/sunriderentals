@@ -240,11 +240,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('🔄 Restoring user session from localStorage:', userData.email);
           setUser(userData);
           
-          // Sync with MongoDB to get latest data (but don't overwrite session)
-          if (!userData.phone || !userData.address || !userData.createdAt) {
-            console.log('🔄 User missing required fields, triggering sync...');
-            await syncUser();
-          }
+          // Sync with MongoDB to get latest data
+          console.log('🔄 Syncing user data with MongoDB to get latest isRider status...');
+          await syncUser();
         } else {
           console.log('🔄 No session found, initializing fresh...');
         }
