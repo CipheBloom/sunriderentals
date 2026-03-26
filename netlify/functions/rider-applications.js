@@ -157,17 +157,12 @@ exports.handler = async (event, context) => {
         console.log(`🔍 Fetching rider application for user: ${userId}`);
         
         if (!dbConnected) {
-          // Return mock response for specific user
-          const mockApplication = {
-            id: `rider_app_${userId}`,
-            userId: userId,
-            status: 'pending',
-            createdAt: new Date().toISOString()
-          };
+          console.log('🔍 Using mock rider application data - MongoDB not connected');
+          // Return no application found for this user
           return {
-            statusCode: 200,
+            statusCode: 404,
             headers,
-            body: JSON.stringify(mockApplication, null, 2),
+            body: JSON.stringify({ error: 'No rider application found for this user' }),
           };
         }
         
