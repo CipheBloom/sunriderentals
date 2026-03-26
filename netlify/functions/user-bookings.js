@@ -167,6 +167,9 @@ exports.handler = async (event, context) => {
     
     // Get bookings for specific user from MongoDB
     console.log('🔍 Querying bookings for userId:', userId);
+    console.log('🔍 dbConnected status:', dbConnected);
+    console.log('🔍 FUNCTION VERSION: 2.0 - FIXED VERSION');
+    
     const userBookings = await Booking.find({ userId: userId }).lean();
     
     return {
