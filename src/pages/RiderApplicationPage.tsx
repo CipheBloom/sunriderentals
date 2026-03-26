@@ -127,9 +127,9 @@ export function RiderApplicationPage() {
   });
   
   if (isAuthenticated && user?.isRider) {
-    console.log('🔄 User is already a rider, redirecting to home...');
-    // Redirect to home page since they're already a rider
-    navigate('/');
+    console.log('🔄 User is already a rider, redirecting to already-rider page...');
+    // Redirect to dedicated page for existing riders
+    navigate('/already-rider');
     return null;
   }
 
