@@ -119,7 +119,15 @@ export function RiderApplicationPage() {
   }
 
   // Check if user is already a rider and redirect them
+  console.log('🔍 Rider Application Page - User check:', {
+    isAuthenticated,
+    userId: user?.id,
+    isRider: user?.isRider,
+    userName: user?.name
+  });
+  
   if (isAuthenticated && user?.isRider) {
+    console.log('🔄 User is already a rider, redirecting to home...');
     // Redirect to home page since they're already a rider
     navigate('/');
     return null;
