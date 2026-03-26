@@ -29,9 +29,15 @@ export function ProfilePage() {
         try {
           console.log('🔄 Fetching bookings for user:', user.id, 'with email:', user.email);
           const userBookings = await bookingAPI.getByUser(user.id);
-          console.log('📋 Bookings fetched:', userBookings);
-          console.log('📋 Bookings count:', userBookings.length);
-          setBookings(userBookings);
+          // Sort bookings by newest first (createdAt descending)
+          const sortedBookings = userBookings.sort((a: BookingData, b: BookingData) => {
+            const dateA = new Date(a.createdAt || 0).getTime();
+            const dateB = new Date(b.createdAt || 0).getTime();
+            return dateB - dateA; // Newest first
+          });
+          console.log('📋 Bookings fetched:', sortedBookings);
+          console.log('📋 Bookings count:', sortedBookings.length);
+          setBookings(sortedBookings);
         } catch (error) {
           console.error('❌ Failed to fetch bookings:', error);
         }
