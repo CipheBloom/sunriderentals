@@ -143,10 +143,16 @@ export interface AdminStats {
   totalBookings: number;
   totalUsers: number;
   totalVehicles: number;
+  totalRiderApplications: number;
   activeBookings: number;
-  pendingBookings: number;
-  cancelledBookings: number;
   completedBookings: number;
+  cancelledBookings: number;
+  pendingRiderApplications: number;
+  approvedRiderApplications: number;
+  rejectedRiderApplications: number;
+  availableVehicles: number;
+  unavailableVehicles: number;
+  totalRiders: number;
   totalRevenue: number;
 }
 

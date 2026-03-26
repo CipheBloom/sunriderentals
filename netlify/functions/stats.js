@@ -110,6 +110,7 @@ exports.handler = async (event, context) => {
         availableVehicles: 0,
         unavailableVehicles: 0,
         totalRiders: 0,
+        totalRevenue: 0,
       };
       
       return {
@@ -143,6 +144,10 @@ exports.handler = async (event, context) => {
       availableVehicles: vehicles.filter(v => v.available).length,
       unavailableVehicles: vehicles.filter(v => !v.available).length,
       totalRiders: users.filter(u => u.isRider).length,
+      // Calculate total revenue excluding cancelled bookings
+      totalRevenue: bookings
+        .filter(booking => booking.status !== 'cancelled')
+        .reduce((sum, booking) => sum + (booking.totalPrice || 0), 0),
     };
     
     return {
