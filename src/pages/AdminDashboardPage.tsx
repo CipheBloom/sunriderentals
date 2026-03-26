@@ -63,7 +63,13 @@ export function AdminDashboardPage() {
       setStats(statsData);
       
       const bookingsData = await adminAPI.getAllBookings();
-      setBookings(bookingsData);
+      // Sort bookings by newest first (createdAt descending)
+      const sortedBookings = bookingsData.sort((a: BookingData, b: BookingData) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA; // Newest first
+      });
+      setBookings(sortedBookings);
       
       const usersData = await adminAPI.getAllUsers();
       setUsers(usersData);
@@ -87,7 +93,13 @@ export function AdminDashboardPage() {
       await adminAPI.updateBookingStatus(bookingId, status);
       // Refresh bookings
       const updatedBookings = await adminAPI.getAllBookings();
-      setBookings(updatedBookings);
+      // Sort bookings by newest first (createdAt descending)
+      const sortedUpdatedBookings = updatedBookings.sort((a: BookingData, b: BookingData) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA; // Newest first
+      });
+      setBookings(sortedUpdatedBookings);
       // Refresh stats
       const updatedStats = await adminAPI.getStats();
       setStats(updatedStats);

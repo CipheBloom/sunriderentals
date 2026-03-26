@@ -104,6 +104,7 @@ export interface BookingData {
   endDate: Date | string;
   totalPrice?: number;
   status?: 'pending' | 'confirmed' | 'active' | 'completed' | 'cancelled';
+  createdAt?: Date | string;
   // Admin enriched fields
   userName?: string;
   userEmail?: string;
