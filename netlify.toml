@@ -64,13 +64,8 @@
   status = 200
 
 [[redirects]]
-  from = "/api/bookings"
+  from = "/api/user-bookings"
   to = "/.netlify/functions/user-bookings"
-  status = 200
-
-[[redirects]]
-  from = "/api/bookings?userId=*"
-  to = "/.netlify/functions/user-bookings?userId=:splat"
   status = 200
 
 [[redirects]]
