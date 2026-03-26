@@ -166,14 +166,8 @@ exports.handler = async (event, context) => {
     }
     
     // Get bookings for specific user from MongoDB
-    if (!userId) {
-      console.log('❌ No userId provided for user-bookings');
-      return {
     console.log('🔍 Querying bookings for userId:', userId);
-    console.log('🔍 MongoDB query will be: { userId: "' + userId + '" }');
     const bookings = await Booking.find({ userId: userId }).lean();
-    console.log('🔍 Found bookings count:', bookings.length);
-    console.log('🔍 First booking userId:', bookings[0]?.userId);
     
     return {
       statusCode: 200,
