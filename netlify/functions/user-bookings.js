@@ -167,12 +167,12 @@ exports.handler = async (event, context) => {
     
     // Get bookings for specific user from MongoDB
     console.log('🔍 Querying bookings for userId:', userId);
-    const bookings = await Booking.find({ userId: userId }).lean();
+    const userBookings = await Booking.find({ userId: userId }).lean();
     
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify(bookings, null, 2),
+      body: JSON.stringify(userBookings, null, 2),
     };
     
   } catch (error) {
