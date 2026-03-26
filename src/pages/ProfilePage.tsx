@@ -27,9 +27,10 @@ export function ProfilePage() {
       // Fetch bookings from MongoDB
       const fetchBookings = async () => {
         try {
-          console.log('🔄 Fetching bookings for user:', user.id);
+          console.log('🔄 Fetching bookings for user:', user.id, 'with email:', user.email);
           const userBookings = await bookingAPI.getByUser(user.id);
           console.log('📋 Bookings fetched:', userBookings);
+          console.log('📋 Bookings count:', userBookings.length);
           setBookings(userBookings);
         } catch (error) {
           console.error('❌ Failed to fetch bookings:', error);
