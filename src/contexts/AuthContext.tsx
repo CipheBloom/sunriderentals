@@ -219,25 +219,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user, syncUser]);
 
+  // Watch for user changes and update session
+  useEffect(() => {
+    if (user) {
+      console.log('🔄 User state changed, updating session...');
+      localStorage.setItem('sunride_auth_session', JSON.stringify(user));
+    }
+  }, [user]);
+
   // Initial data fetch on app load
   useEffect(() => {
     const initializeAuth = async () => {
       try {
         // Check if user session exists in localStorage
         const storedUser = localStorage.getItem('sunride_auth_session');
+        console.log('🔍 Checking localStorage for session:', storedUser ? 'Found' : 'Not found');
+        
         if (storedUser) {
           const userData = JSON.parse(storedUser);
           console.log('🔄 Restoring user session from localStorage:', userData.email);
           setUser(userData);
           
-          // Sync with MongoDB to get latest data
+          // Sync with MongoDB to get latest data (but don't overwrite session)
           if (!userData.phone || !userData.address || !userData.createdAt) {
             console.log('🔄 User missing required fields, triggering sync...');
-            syncUser();
+            await syncUser();
           }
         } else {
-          console.log('🔄 Initializing auth from MongoDB...');
-          // User data will be loaded from MongoDB when needed via API calls
+          console.log('🔄 No session found, initializing fresh...');
         }
       } catch (error) {
         console.error('❌ Error initializing auth:', error);
