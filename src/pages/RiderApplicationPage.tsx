@@ -118,43 +118,11 @@ export function RiderApplicationPage() {
     );
   }
 
-  // Check if user is already a rider
+  // Check if user is already a rider and redirect them
   if (isAuthenticated && user?.isRider) {
-    return (
-      <div className="min-h-screen bg-blue-100 py-12 px-4 flex items-center justify-center">
-        <div className="max-w-2xl mx-auto w-full">
-          <Card className="border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 border-4 border-black bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Bike className="w-8 h-8 text-black" />
-              </div>
-              <CardTitle className="text-2xl font-black text-black mb-2">
-                You Are Already a Rider!
-              </CardTitle>
-              <CardDescription className="text-black font-medium">
-                Your rider application has been approved. You can start accepting delivery orders.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="space-y-2">
-                <p className="text-black font-medium">
-                  🎉 Congratulations on becoming part of our delivery team!
-                </p>
-                <p className="text-black font-medium">
-                  📧 Check your email for rider guidelines and instructions.
-                </p>
-              </div>
-              <Button 
-                onClick={() => navigate('/')}
-                className="w-full h-12 font-black"
-              >
-                Go to Dashboard
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
+    // Redirect to home page since they're already a rider
+    navigate('/');
+    return null;
   }
 
   return (
